@@ -21,6 +21,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache"
   },
   "dependencies": {
+    "@ai-sdk/google": "^1.1.14",
     "@ai-sdk/openai": "^1.1.11",
     "@hookform/resolvers": "^4.1.0",
     "@prisma/client": "^5.14.0",
