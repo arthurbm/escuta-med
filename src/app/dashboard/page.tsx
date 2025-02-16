@@ -383,6 +383,23 @@ export default function DashboardPage() {
                       </div>
                     </section>
                   )}
+
+                {/* Hipótese de Diagnóstico */}
+                {patientInfo.diagnostic_hypothesis && (
+                  <section>
+                    <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900">
+                      <div className="rounded-lg bg-indigo-100 p-2">
+                        <FileText className="h-5 w-5 text-indigo-600" />
+                      </div>
+                      Hipótese de Diagnóstico
+                    </h2>
+                    <div className="mt-4 rounded-lg bg-gray-50 p-4">
+                      <p className="whitespace-pre-wrap text-gray-700">
+                        {patientInfo.diagnostic_hypothesis}
+                      </p>
+                    </div>
+                  </section>
+                )}
               </div>
             )}
           </div>

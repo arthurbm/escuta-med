@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     const { text } = requestSchema.parse(body);
 
     const result = streamObject({
-      model: google("gemini-2.0-pro-exp-02-05"),
+      model: google("gemini-2.0-flash-001"),
       schema: patientSchema,
       system: `Você é um assistente especializado em extrair informações de consultas médicas. Escreva em termos médicos, quem vai ler são médicos.
       A partir do texto fornecido, extraia as seguintes informações do paciente:
@@ -56,6 +56,9 @@ export async function POST(req: NextRequest) {
       - lifestyle.alcohol.details (string, opcional): detalhes sobre consumo de álcool
       - lifestyle.drugs.uses_drugs (boolean): se usa drogas
       - lifestyle.drugs.details (string, opcional): detalhes sobre uso de drogas
+
+      7. Hipótese de Diagnóstico:
+      - diagnostic_hypothesis (string): hipótese de diagnóstico
 
       Se alguma informação não estiver disponível no texto, use valores vazios apropriados (string vazia para textos, arrays vazios para listas, false para booleanos).
       Mantenha a resposta em formato JSON válido.`,

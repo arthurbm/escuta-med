@@ -18,7 +18,12 @@ export const patientSchema = z.object({
   }).describe("Queixa principal e duração"),
 
   // História da Doença Atual
-  current_disease_history: z.string().min(1).describe("História da doença atual em linguagem técnica médica. DEVE SER COMPLETA"),
+  current_disease_history: z.string().min(1).describe(
+    "História da doença atual em linguagem técnica médica. DEVE SER COMPLETA"
+  ),
+
+  // Hipótese de Diagnóstico
+  diagnostic_hypothesis: z.string().min(1).describe("Hipótese de diagnóstico"),
 
   // Antecedentes do Paciente
   patient_history: z.object({
@@ -51,4 +56,4 @@ export const patientSchema = z.object({
   }).describe("Hábitos de vida"),
 });
 
-export type PatientInfo = z.infer<typeof patientSchema>; 
+export type PatientInfo = z.infer<typeof patientSchema>;
