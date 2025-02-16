@@ -1,6 +1,5 @@
 import { type NextRequest } from "next/server";
 import { streamObject } from "ai";
-import { openai } from "@ai-sdk/openai";
 import { google } from "@ai-sdk/google";
 import { patientSchema } from "@/schemas/patient-schema";
 import { z } from "zod";
