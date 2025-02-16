@@ -17,9 +17,9 @@ export async function POST(req: NextRequest) {
     const { text } = requestSchema.parse(body);
 
     const result = streamObject({
-      model: google("gemini-2.0-flash-001"),
+      model: google("gemini-2.0-pro-exp-02-05"),
       schema: patientSchema,
-      system: `Você é um assistente especializado em extrair informações de consultas médicas.
+      system: `Você é um assistente especializado em extrair informações de consultas médicas. Escreva em termos médicos, quem vai ler são médicos.
       A partir do texto fornecido, extraia as seguintes informações do paciente:
 
       1. Identificação:
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       - main_complaint.duration (string): duração do sintoma
 
       3. História da Doença Atual:
-      - current_disease_history (string): história detalhada em linguagem técnica médica
+      - current_disease_history (string): história detalhada em linguagem técnica médica. DEVE SER COMPLETA
 
       4. Antecedentes do Paciente:
       - patient_history.base_diseases (array de strings): lista de doenças de base

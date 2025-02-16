@@ -18,7 +18,7 @@ export const patientSchema = z.object({
   }).describe("Queixa principal e duração"),
 
   // História da Doença Atual
-  current_disease_history: z.string().min(1).describe("História da doença atual em linguagem técnica médica"),
+  current_disease_history: z.string().min(1).describe("História da doença atual em linguagem técnica médica. DEVE SER COMPLETA"),
 
   // Antecedentes do Paciente
   patient_history: z.object({
