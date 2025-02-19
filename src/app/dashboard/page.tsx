@@ -5,12 +5,14 @@ import { experimental_useObject } from "ai/react";
 import { patientSchema, type PatientInfo } from "@/schemas/patient-schema";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Stethoscope, FileText, ArrowLeft } from "lucide-react";
+import { Stethoscope, FileText, ArrowLeft, Mic, FileEdit } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Link from "next/link";
 import { AudioRecorder } from "@/components/audio-recorder";
 
 export default function DashboardPage() {
   const [consultation, setConsultation] = useState("");
+  const [transcribedText, setTranscribedText] = useState("");
 
   const {
     object: patientInfo,
@@ -22,17 +24,18 @@ export default function DashboardPage() {
   });
 
   const processConsultation = async () => {
-    if (!consultation.trim()) return;
+    const textToProcess = transcribedText || consultation;
+    if (!textToProcess.trim()) return;
 
     try {
-      submit({ text: consultation });
+      submit({ text: textToProcess });
     } catch (error) {
       console.error("Error processing consultation:", error);
     }
   };
 
   const handleTranscriptionComplete = (text: string) => {
-    setConsultation(text);
+    setTranscribedText(text);
   };
 
   // Helper function to render a list of items
@@ -76,37 +79,81 @@ export default function DashboardPage() {
             Processar Consulta
           </h1>
           <p className="mt-2 text-muted-foreground">
-            Grave o áudio da consulta ou cole o texto abaixo para gerar um
-            relatório estruturado.
+            Grave o áudio da consulta ou digite o texto para gerar um relatório
+            estruturado.
           </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1fr,1.5fr]">
           {/* Input Section */}
-          <div className="space-y-4 rounded-lg bg-card p-6 shadow-sm">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-lg font-semibold text-card-foreground">
-                <FileText className="h-5 w-5 text-primary" />
-                Texto da Consulta
-              </div>
-              <AudioRecorder
-                onTranscriptionComplete={handleTranscriptionComplete}
-              />
-            </div>
-            <Textarea
-              value={consultation}
-              onChange={(e) => setConsultation(e.target.value)}
-              placeholder="Digite ou cole o texto da consulta aqui..."
-              className="min-h-[400px] resize-none"
-            />
-            <Button
-              size="lg"
-              onClick={processConsultation}
-              disabled={!consultation.trim() || isLoading}
-              className="w-full"
-            >
-              {isLoading ? "Processando..." : "Processar Consulta"}
-            </Button>
+          <div className="space-y-4">
+            <Tabs defaultValue="record" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="record" className="flex items-center gap-2">
+                  <Mic className="h-4 w-4" />
+                  Gravar Áudio
+                </TabsTrigger>
+                <TabsTrigger value="text" className="flex items-center gap-2">
+                  <FileEdit className="h-4 w-4" />
+                  Digitar Texto
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="record" className="space-y-4">
+                <div className="rounded-lg bg-card p-6 shadow-sm">
+                  <div className="mb-6 flex flex-col items-center justify-center gap-4">
+                    <AudioRecorder
+                      onTranscriptionComplete={handleTranscriptionComplete}
+                    />
+                  </div>
+                  {transcribedText && (
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 text-lg font-semibold text-card-foreground">
+                        <FileText className="h-5 w-5 text-primary" />
+                        Transcrição
+                      </div>
+                      <Textarea
+                        value={transcribedText}
+                        onChange={(e) => setTranscribedText(e.target.value)}
+                        className="min-h-[200px] resize-none"
+                        placeholder="A transcrição aparecerá aqui..."
+                      />
+                      <Button
+                        size="lg"
+                        onClick={processConsultation}
+                        disabled={!transcribedText.trim() || isLoading}
+                        className="w-full"
+                      >
+                        {isLoading ? "Processando..." : "Processar Consulta"}
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </TabsContent>
+
+              <TabsContent value="text">
+                <div className="rounded-lg bg-card p-6 shadow-sm">
+                  <div className="flex items-center gap-2 text-lg font-semibold text-card-foreground">
+                    <FileText className="h-5 w-5 text-primary" />
+                    Texto da Consulta
+                  </div>
+                  <Textarea
+                    value={consultation}
+                    onChange={(e) => setConsultation(e.target.value)}
+                    placeholder="Digite ou cole o texto da consulta aqui..."
+                    className="mt-4 min-h-[300px] resize-none"
+                  />
+                  <Button
+                    size="lg"
+                    onClick={processConsultation}
+                    disabled={!consultation.trim() || isLoading}
+                    className="mt-4 w-full"
+                  >
+                    {isLoading ? "Processando..." : "Processar Consulta"}
+                  </Button>
+                </div>
+              </TabsContent>
+            </Tabs>
           </div>
 
           {/* Results Section */}
