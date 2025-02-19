@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Stethoscope, FileText, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { AudioRecorder } from "@/components/audio-recorder";
 
 export default function DashboardPage() {
   const [consultation, setConsultation] = useState("");
@@ -28,6 +29,10 @@ export default function DashboardPage() {
     } catch (error) {
       console.error("Error processing consultation:", error);
     }
+  };
+
+  const handleTranscriptionComplete = (text: string) => {
+    setConsultation(text);
   };
 
   // Helper function to render a list of items
@@ -71,16 +76,22 @@ export default function DashboardPage() {
             Processar Consulta
           </h1>
           <p className="mt-2 text-muted-foreground">
-            Cole o texto da consulta abaixo para gerar um relatório estruturado.
+            Grave o áudio da consulta ou cole o texto abaixo para gerar um
+            relatório estruturado.
           </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1fr,1.5fr]">
           {/* Input Section */}
           <div className="space-y-4 rounded-lg bg-card p-6 shadow-sm">
-            <div className="flex items-center gap-2 text-lg font-semibold text-card-foreground">
-              <FileText className="h-5 w-5 text-primary" />
-              Texto da Consulta
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-lg font-semibold text-card-foreground">
+                <FileText className="h-5 w-5 text-primary" />
+                Texto da Consulta
+              </div>
+              <AudioRecorder
+                onTranscriptionComplete={handleTranscriptionComplete}
+              />
             </div>
             <Textarea
               value={consultation}
