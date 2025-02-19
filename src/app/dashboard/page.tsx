@@ -231,7 +231,7 @@ export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Navbar */}
-      <nav className="border-b border-border bg-background">
+      <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
           <div className="flex items-center gap-2">
             <Stethoscope className="h-6 w-6 text-primary" />
@@ -246,9 +246,9 @@ export default function DashboardPage() {
         </div>
       </nav>
 
-      <div className="mx-auto max-w-7xl px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">
+      <div className="mx-auto max-w-7xl px-4 py-6">
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-foreground sm:text-3xl">
             Processar Consulta
           </h1>
           <p className="mt-2 text-muted-foreground">
@@ -257,7 +257,8 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <div className="grid gap-8 lg:grid-cols-[1fr,1.5fr]">
+        {/* Mobile: flex-col, Desktop: grid with 2 columns */}
+        <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[1fr,1.5fr] lg:items-start">
           {/* Input Section */}
           <div className="space-y-4">
             <Tabs defaultValue="record" className="w-full">
@@ -277,9 +278,9 @@ export default function DashboardPage() {
               </TabsList>
 
               <TabsContent value="record" className="space-y-4">
-                <div className="rounded-lg bg-card p-8 shadow-sm">
+                <div className="rounded-lg bg-card p-6 shadow-sm">
                   <div className="flex flex-col items-center justify-center">
-                    <div className="mb-8 text-center">
+                    <div className="mb-6 text-center">
                       <h3 className="text-xl font-semibold text-foreground">
                         Grave sua consulta
                       </h3>
@@ -293,7 +294,7 @@ export default function DashboardPage() {
                     />
                   </div>
                   {transcribedText && (
-                    <div className="mt-8 space-y-4">
+                    <div className="mt-6 space-y-4">
                       <div className="flex items-center gap-2 text-lg font-semibold text-card-foreground">
                         <FileText className="h-5 w-5 text-primary" />
                         Transcrição
@@ -323,9 +324,9 @@ export default function DashboardPage() {
               </TabsContent>
 
               <TabsContent value="upload" className="space-y-4">
-                <div className="rounded-lg bg-card p-8 shadow-sm">
+                <div className="rounded-lg bg-card p-6 shadow-sm">
                   <div className="flex flex-col items-center justify-center">
-                    <div className="mb-8 text-center">
+                    <div className="mb-6 text-center">
                       <h3 className="text-xl font-semibold text-foreground">
                         Envie o áudio da consulta
                       </h3>
@@ -395,7 +396,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   {transcribedText && (
-                    <div className="mt-8 space-y-4">
+                    <div className="mt-6 space-y-4">
                       <div className="flex items-center gap-2 text-lg font-semibold text-card-foreground">
                         <FileText className="h-5 w-5 text-primary" />
                         Transcrição
@@ -451,7 +452,7 @@ export default function DashboardPage() {
 
           {/* Results Section */}
           <div className="space-y-6">
-            {patientInfo && (
+            {patientInfo ? (
               <div className="space-y-6 rounded-lg bg-card p-6 shadow-sm">
                 {/* Identificação */}
                 <section>
@@ -751,6 +752,17 @@ export default function DashboardPage() {
                     </div>
                   </section>
                 )}
+              </div>
+            ) : (
+              <div className="flex min-h-[200px] flex-col items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/25 bg-muted/5 px-6 py-10 lg:min-h-[300px]">
+                <FileText className="mb-4 h-12 w-12 text-muted-foreground/50" />
+                <h3 className="text-lg font-semibold text-muted-foreground">
+                  Nenhuma consulta processada
+                </h3>
+                <p className="mt-2 text-center text-sm text-muted-foreground/80">
+                  Grave, envie ou digite o texto da consulta para gerar o
+                  relatório estruturado.
+                </p>
               </div>
             )}
           </div>
