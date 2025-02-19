@@ -105,8 +105,8 @@ export default function DashboardPage() {
                 {/* Identificação */}
                 <section>
                   <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
-                    <div className="rounded-lg bg-primary/10 p-2">
-                      <FileText className="h-5 w-5 text-primary" />
+                    <div className="rounded-lg bg-blue-100 p-2">
+                      <FileText className="h-5 w-5 text-blue-600" />
                     </div>
                     Identificação
                   </h2>
@@ -182,8 +182,8 @@ export default function DashboardPage() {
                 {patientInfo.main_complaint && (
                   <section>
                     <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
-                      <div className="rounded-lg bg-primary/10 p-2">
-                        <FileText className="h-5 w-5 text-primary" />
+                      <div className="rounded-lg bg-red-100 p-2">
+                        <FileText className="h-5 w-5 text-red-600" />
                       </div>
                       Queixa Principal
                     </h2>
@@ -211,8 +211,8 @@ export default function DashboardPage() {
                 {/* História da Doença Atual */}
                 <section>
                   <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
-                    <div className="rounded-lg bg-primary/10 p-2">
-                      <FileText className="h-5 w-5 text-primary" />
+                    <div className="rounded-lg bg-orange-100 p-2">
+                      <FileText className="h-5 w-5 text-orange-600" />
                     </div>
                     História da Doença Atual
                   </h2>
@@ -227,8 +227,8 @@ export default function DashboardPage() {
                 {patientInfo.patient_history && (
                   <section>
                     <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
-                      <div className="rounded-lg bg-primary/10 p-2">
-                        <FileText className="h-5 w-5 text-primary" />
+                      <div className="rounded-lg bg-emerald-100 p-2">
+                        <FileText className="h-5 w-5 text-emerald-600" />
                       </div>
                       Antecedentes do Paciente
                     </h2>
@@ -283,8 +283,8 @@ export default function DashboardPage() {
                 {patientInfo.family_history && (
                   <section>
                     <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
-                      <div className="rounded-lg bg-primary/10 p-2">
-                        <FileText className="h-5 w-5 text-primary" />
+                      <div className="rounded-lg bg-amber-100 p-2">
+                        <FileText className="h-5 w-5 text-amber-600" />
                       </div>
                       Antecedentes Familiares
                     </h2>
@@ -323,8 +323,8 @@ export default function DashboardPage() {
                   patientInfo.lifestyle.drugs && (
                     <section>
                       <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
-                        <div className="rounded-lg bg-primary/10 p-2">
-                          <FileText className="h-5 w-5 text-primary" />
+                        <div className="rounded-lg bg-indigo-100 p-2">
+                          <FileText className="h-5 w-5 text-indigo-600" />
                         </div>
                         Hábitos de Vida
                       </h2>
@@ -388,8 +388,8 @@ export default function DashboardPage() {
                 {patientInfo.diagnostic_hypothesis && (
                   <section>
                     <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
-                      <div className="rounded-lg bg-primary/10 p-2">
-                        <FileText className="h-5 w-5 text-primary" />
+                      <div className="rounded-lg bg-teal-100 p-2">
+                        <FileText className="h-5 w-5 text-teal-600" />
                       </div>
                       Hipótese de Diagnóstico
                     </h2>

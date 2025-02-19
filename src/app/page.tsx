@@ -34,7 +34,7 @@ export default function HomePage() {
       {/* Hero Section */}
       <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-gradient-to-b from-secondary via-background to-background px-4 pt-16 text-center">
         {/* Background Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_r,#4f46e510,#06b6d410)] opacity-50" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-secondary/5" />
 
         <div className="animate-fade-in relative space-y-6">
           <div className="mb-6 inline-flex items-center rounded-full bg-primary/10 px-4 py-2 text-sm text-primary">
@@ -69,19 +69,19 @@ export default function HomePage() {
 
         {/* Stats with improved visual */}
         <div className="relative mt-16 grid grid-cols-1 gap-8 sm:grid-cols-3">
-          <div className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
+          <div className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 shadow-sm transition-colors hover:bg-card/80">
             <span className="mb-2 text-4xl font-bold text-primary">2h/dia</span>
             <span className="text-sm text-muted-foreground">
               Tempo recuperado
             </span>
           </div>
-          <div className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
+          <div className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 shadow-sm transition-colors hover:bg-card/80">
             <span className="mb-2 text-4xl font-bold text-primary">100%</span>
             <span className="text-sm text-muted-foreground">
               Precisão da IA
             </span>
           </div>
-          <div className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md">
+          <div className="group flex flex-col items-center rounded-xl border border-border bg-card p-6 shadow-sm transition-colors hover:bg-card/80">
             <span className="mb-2 text-4xl font-bold text-primary">+5.000</span>
             <span className="text-sm text-muted-foreground">Consultas/dia</span>
           </div>
@@ -303,7 +303,7 @@ export default function HomePage() {
 
       {/* CTA Section - IMPROVED */}
       <section className="relative overflow-hidden bg-primary py-24">
-        <div className="absolute inset-0 bg-[linear-gradient(to_r,#4f46e5,#06b6d4)] opacity-10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary" />
         <div className="relative mx-auto max-w-4xl px-4 text-center">
           <h2 className="mb-4 text-4xl font-bold text-primary-foreground">
             Pronto para transformar seus atendimentos?
