@@ -50,10 +50,10 @@ export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Navbar */}
-      <nav className="border-b border-gray-200 bg-white">
+      <nav className="border-b border-border bg-background">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
           <div className="flex items-center gap-2">
-            <Stethoscope className="h-6 w-6 text-blue-600" />
+            <Stethoscope className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">EscutaMed</span>
           </div>
           <Link href="/">
@@ -67,19 +67,19 @@ export default function DashboardPage() {
 
       <div className="mx-auto max-w-7xl px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-foreground">
             Processar Consulta
           </h1>
-          <p className="mt-2 text-gray-600">
+          <p className="mt-2 text-muted-foreground">
             Cole o texto da consulta abaixo para gerar um relatório estruturado.
           </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1fr,1.5fr]">
           {/* Input Section */}
-          <div className="space-y-4 rounded-lg bg-white p-6 shadow-sm">
-            <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
-              <FileText className="h-5 w-5 text-blue-600" />
+          <div className="space-y-4 rounded-lg bg-card p-6 shadow-sm">
+            <div className="flex items-center gap-2 text-lg font-semibold text-card-foreground">
+              <FileText className="h-5 w-5 text-primary" />
               Texto da Consulta
             </div>
             <Textarea
@@ -101,77 +101,77 @@ export default function DashboardPage() {
           {/* Results Section */}
           <div className="space-y-6">
             {patientInfo && (
-              <div className="space-y-6 rounded-lg bg-white p-6 shadow-sm">
+              <div className="space-y-6 rounded-lg bg-card p-6 shadow-sm">
                 {/* Identificação */}
                 <section>
-                  <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                    <div className="rounded-lg bg-blue-100 p-2">
-                      <FileText className="h-5 w-5 text-blue-600" />
+                  <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
+                    <div className="rounded-lg bg-primary/10 p-2">
+                      <FileText className="h-5 w-5 text-primary" />
                     </div>
                     Identificação
                   </h2>
                   <div className="mt-4 grid grid-cols-2 gap-4">
-                    <div className="rounded-lg bg-gray-50 p-3">
-                      <span className="text-sm font-medium text-gray-500">
+                    <div className="rounded-lg bg-secondary p-3">
+                      <span className="text-sm font-medium text-muted-foreground">
                         Nome
                       </span>
-                      <div className="mt-1 text-gray-900">
+                      <div className="mt-1 text-foreground">
                         {patientInfo.name}
                       </div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-3">
-                      <span className="text-sm font-medium text-gray-500">
+                    <div className="rounded-lg bg-secondary p-3">
+                      <span className="text-sm font-medium text-muted-foreground">
                         Sexo
                       </span>
-                      <div className="mt-1 text-gray-900">
+                      <div className="mt-1 text-foreground">
                         {patientInfo.gender}
                       </div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-3">
-                      <span className="text-sm font-medium text-gray-500">
+                    <div className="rounded-lg bg-secondary p-3">
+                      <span className="text-sm font-medium text-muted-foreground">
                         Idade
                       </span>
-                      <div className="mt-1 text-gray-900">
+                      <div className="mt-1 text-foreground">
                         {patientInfo.age} anos
                       </div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-3">
-                      <span className="text-sm font-medium text-gray-500">
+                    <div className="rounded-lg bg-secondary p-3">
+                      <span className="text-sm font-medium text-muted-foreground">
                         Escolaridade
                       </span>
-                      <div className="mt-1 text-gray-900">
+                      <div className="mt-1 text-foreground">
                         {patientInfo.education_level}
                       </div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-3">
-                      <span className="text-sm font-medium text-gray-500">
+                    <div className="rounded-lg bg-secondary p-3">
+                      <span className="text-sm font-medium text-muted-foreground">
                         Cidade Natal
                       </span>
-                      <div className="mt-1 text-gray-900">
+                      <div className="mt-1 text-foreground">
                         {patientInfo.birth_city}
                       </div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-3">
-                      <span className="text-sm font-medium text-gray-500">
+                    <div className="rounded-lg bg-secondary p-3">
+                      <span className="text-sm font-medium text-muted-foreground">
                         Cidade Atual
                       </span>
-                      <div className="mt-1 text-gray-900">
+                      <div className="mt-1 text-foreground">
                         {patientInfo.current_city}
                       </div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-3">
-                      <span className="text-sm font-medium text-gray-500">
+                    <div className="rounded-lg bg-secondary p-3">
+                      <span className="text-sm font-medium text-muted-foreground">
                         Profissão
                       </span>
-                      <div className="mt-1 text-gray-900">
+                      <div className="mt-1 text-foreground">
                         {patientInfo.profession}
                       </div>
                     </div>
-                    <div className="rounded-lg bg-gray-50 p-3">
-                      <span className="text-sm font-medium text-gray-500">
+                    <div className="rounded-lg bg-secondary p-3">
+                      <span className="text-sm font-medium text-muted-foreground">
                         Estado Civil
                       </span>
-                      <div className="mt-1 text-gray-900">
+                      <div className="mt-1 text-foreground">
                         {patientInfo.marital_status}
                       </div>
                     </div>
@@ -181,26 +181,26 @@ export default function DashboardPage() {
                 {/* Queixa Principal */}
                 {patientInfo.main_complaint && (
                   <section>
-                    <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                      <div className="rounded-lg bg-green-100 p-2">
-                        <FileText className="h-5 w-5 text-green-600" />
+                    <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
+                      <div className="rounded-lg bg-primary/10 p-2">
+                        <FileText className="h-5 w-5 text-primary" />
                       </div>
                       Queixa Principal
                     </h2>
                     <div className="mt-4 space-y-4">
-                      <div className="rounded-lg bg-gray-50 p-4">
-                        <span className="text-sm font-medium text-gray-500">
+                      <div className="rounded-lg bg-secondary p-4">
+                        <span className="text-sm font-medium text-muted-foreground">
                           Descrição
                         </span>
-                        <div className="mt-1 text-gray-900">
+                        <div className="mt-1 text-foreground">
                           {patientInfo.main_complaint.description}
                         </div>
                       </div>
-                      <div className="rounded-lg bg-gray-50 p-4">
-                        <span className="text-sm font-medium text-gray-500">
+                      <div className="rounded-lg bg-secondary p-4">
+                        <span className="text-sm font-medium text-muted-foreground">
                           Duração
                         </span>
-                        <div className="mt-1 text-gray-900">
+                        <div className="mt-1 text-foreground">
                           {patientInfo.main_complaint.duration}
                         </div>
                       </div>
@@ -210,14 +210,14 @@ export default function DashboardPage() {
 
                 {/* História da Doença Atual */}
                 <section>
-                  <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                    <div className="rounded-lg bg-purple-100 p-2">
-                      <FileText className="h-5 w-5 text-purple-600" />
+                  <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
+                    <div className="rounded-lg bg-primary/10 p-2">
+                      <FileText className="h-5 w-5 text-primary" />
                     </div>
                     História da Doença Atual
                   </h2>
-                  <div className="mt-4 rounded-lg bg-gray-50 p-4">
-                    <p className="whitespace-pre-wrap text-gray-700">
+                  <div className="mt-4 rounded-lg bg-secondary p-4">
+                    <p className="whitespace-pre-wrap text-foreground">
                       {patientInfo.current_disease_history}
                     </p>
                   </div>
@@ -226,18 +226,18 @@ export default function DashboardPage() {
                 {/* Antecedentes do Paciente */}
                 {patientInfo.patient_history && (
                   <section>
-                    <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                      <div className="rounded-lg bg-orange-100 p-2">
-                        <FileText className="h-5 w-5 text-orange-600" />
+                    <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
+                      <div className="rounded-lg bg-primary/10 p-2">
+                        <FileText className="h-5 w-5 text-primary" />
                       </div>
                       Antecedentes do Paciente
                     </h2>
                     <div className="mt-4 space-y-4">
-                      <div className="rounded-lg bg-gray-50 p-4">
-                        <span className="text-sm font-medium text-gray-500">
+                      <div className="rounded-lg bg-secondary p-4">
+                        <span className="text-sm font-medium text-muted-foreground">
                           Doenças de Base
                         </span>
-                        <ul className="mt-2 list-disc space-y-1 pl-5">
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-foreground">
                           {renderList(
                             safeArray(
                               patientInfo.patient_history.base_diseases,
@@ -245,31 +245,31 @@ export default function DashboardPage() {
                           )}
                         </ul>
                       </div>
-                      <div className="rounded-lg bg-gray-50 p-4">
-                        <span className="text-sm font-medium text-gray-500">
+                      <div className="rounded-lg bg-secondary p-4">
+                        <span className="text-sm font-medium text-muted-foreground">
                           Alergias
                         </span>
-                        <ul className="mt-2 list-disc space-y-1 pl-5">
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-foreground">
                           {renderList(
                             safeArray(patientInfo.patient_history.allergies),
                           )}
                         </ul>
                       </div>
-                      <div className="rounded-lg bg-gray-50 p-4">
-                        <span className="text-sm font-medium text-gray-500">
+                      <div className="rounded-lg bg-secondary p-4">
+                        <span className="text-sm font-medium text-muted-foreground">
                           Cirurgias
                         </span>
-                        <ul className="mt-2 list-disc space-y-1 pl-5">
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-foreground">
                           {renderList(
                             safeArray(patientInfo.patient_history.surgeries),
                           )}
                         </ul>
                       </div>
-                      <div className="rounded-lg bg-gray-50 p-4">
-                        <span className="text-sm font-medium text-gray-500">
+                      <div className="rounded-lg bg-secondary p-4">
+                        <span className="text-sm font-medium text-muted-foreground">
                           Transfusão Sanguínea
                         </span>
-                        <div className="mt-1 text-gray-900">
+                        <div className="mt-1 text-foreground">
                           {patientInfo.patient_history.blood_transfusions
                             ? "Sim"
                             : "Não"}
@@ -282,18 +282,18 @@ export default function DashboardPage() {
                 {/* Antecedentes Familiares */}
                 {patientInfo.family_history && (
                   <section>
-                    <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                      <div className="rounded-lg bg-red-100 p-2">
-                        <FileText className="h-5 w-5 text-red-600" />
+                    <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
+                      <div className="rounded-lg bg-primary/10 p-2">
+                        <FileText className="h-5 w-5 text-primary" />
                       </div>
                       Antecedentes Familiares
                     </h2>
                     <div className="mt-4 space-y-4">
-                      <div className="rounded-lg bg-gray-50 p-4">
-                        <span className="text-sm font-medium text-gray-500">
+                      <div className="rounded-lg bg-secondary p-4">
+                        <span className="text-sm font-medium text-muted-foreground">
                           Doenças dos Pais
                         </span>
-                        <ul className="mt-2 list-disc space-y-1 pl-5">
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-foreground">
                           {renderList(
                             safeArray(
                               patientInfo.family_history.parents_diseases,
@@ -301,11 +301,11 @@ export default function DashboardPage() {
                           )}
                         </ul>
                       </div>
-                      <div className="rounded-lg bg-gray-50 p-4">
-                        <span className="text-sm font-medium text-gray-500">
+                      <div className="rounded-lg bg-secondary p-4">
+                        <span className="text-sm font-medium text-muted-foreground">
                           Causa da Morte dos Pais
                         </span>
-                        <ul className="mt-2 list-disc space-y-1 pl-5">
+                        <ul className="mt-2 list-disc space-y-1 pl-5 text-foreground">
                           {renderList(
                             safeArray(
                               patientInfo.family_history.parents_cause_of_death,
@@ -322,59 +322,59 @@ export default function DashboardPage() {
                   patientInfo.lifestyle.alcohol &&
                   patientInfo.lifestyle.drugs && (
                     <section>
-                      <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                        <div className="rounded-lg bg-teal-100 p-2">
-                          <FileText className="h-5 w-5 text-teal-600" />
+                      <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
+                        <div className="rounded-lg bg-primary/10 p-2">
+                          <FileText className="h-5 w-5 text-primary" />
                         </div>
                         Hábitos de Vida
                       </h2>
                       <div className="mt-4 space-y-4">
-                        <div className="rounded-lg bg-gray-50 p-4">
-                          <span className="text-sm font-medium text-gray-500">
+                        <div className="rounded-lg bg-secondary p-4">
+                          <span className="text-sm font-medium text-muted-foreground">
                             Tabagismo
                           </span>
                           <div className="mt-2 space-y-2">
-                            <div className="text-gray-900">
+                            <div className="text-foreground">
                               {patientInfo.lifestyle.smoking.is_smoker
                                 ? "Fumante"
                                 : "Não Fumante"}
                             </div>
                             {patientInfo.lifestyle.smoking.details && (
-                              <div className="text-gray-600">
+                              <div className="text-muted-foreground">
                                 {patientInfo.lifestyle.smoking.details}
                               </div>
                             )}
                           </div>
                         </div>
-                        <div className="rounded-lg bg-gray-50 p-4">
-                          <span className="text-sm font-medium text-gray-500">
+                        <div className="rounded-lg bg-secondary p-4">
+                          <span className="text-sm font-medium text-muted-foreground">
                             Álcool
                           </span>
                           <div className="mt-2 space-y-2">
-                            <div className="text-gray-900">
+                            <div className="text-foreground">
                               {patientInfo.lifestyle.alcohol.drinks_alcohol
                                 ? "Consome"
                                 : "Não Consome"}
                             </div>
                             {patientInfo.lifestyle.alcohol.details && (
-                              <div className="text-gray-600">
+                              <div className="text-muted-foreground">
                                 {patientInfo.lifestyle.alcohol.details}
                               </div>
                             )}
                           </div>
                         </div>
-                        <div className="rounded-lg bg-gray-50 p-4">
-                          <span className="text-sm font-medium text-gray-500">
+                        <div className="rounded-lg bg-secondary p-4">
+                          <span className="text-sm font-medium text-muted-foreground">
                             Drogas
                           </span>
                           <div className="mt-2 space-y-2">
-                            <div className="text-gray-900">
+                            <div className="text-foreground">
                               {patientInfo.lifestyle.drugs.uses_drugs
                                 ? "Usa"
                                 : "Não Usa"}
                             </div>
                             {patientInfo.lifestyle.drugs.details && (
-                              <div className="text-gray-600">
+                              <div className="text-muted-foreground">
                                 {patientInfo.lifestyle.drugs.details}
                               </div>
                             )}
@@ -387,14 +387,14 @@ export default function DashboardPage() {
                 {/* Hipótese de Diagnóstico */}
                 {patientInfo.diagnostic_hypothesis && (
                   <section>
-                    <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900">
-                      <div className="rounded-lg bg-indigo-100 p-2">
-                        <FileText className="h-5 w-5 text-indigo-600" />
+                    <h2 className="flex items-center gap-2 text-xl font-bold text-card-foreground">
+                      <div className="rounded-lg bg-primary/10 p-2">
+                        <FileText className="h-5 w-5 text-primary" />
                       </div>
                       Hipótese de Diagnóstico
                     </h2>
-                    <div className="mt-4 rounded-lg bg-gray-50 p-4">
-                      <p className="whitespace-pre-wrap text-gray-700">
+                    <div className="mt-4 rounded-lg bg-secondary p-4">
+                      <p className="whitespace-pre-wrap text-foreground">
                         {patientInfo.diagnostic_hypothesis}
                       </p>
                     </div>

@@ -16,10 +16,10 @@ export default function HomePage() {
   return (
     <main className="flex min-h-screen flex-col">
       {/* Navbar */}
-      <nav className="fixed top-0 z-50 w-full border-b border-gray-200 bg-white/80 backdrop-blur-md">
+      <nav className="fixed top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
           <div className="flex items-center gap-2">
-            <Stethoscope className="h-6 w-6 text-blue-600" />
+            <Stethoscope className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">EscutaMed</span>
           </div>
           <Link href="/dashboard">
@@ -32,22 +32,20 @@ export default function HomePage() {
       </nav>
 
       {/* Hero Section */}
-      <section className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-blue-50 via-white to-white px-4 pt-16 text-center">
+      <section className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-secondary via-background to-background px-4 pt-16 text-center">
         <div className="animate-fade-in space-y-6">
-          <div className="mb-6 inline-flex items-center rounded-full bg-blue-100 px-4 py-2 text-sm text-blue-700">
-            <Shield className="mr-2 h-4 w-4" /> Tecnologia confiável e segura
+          <div className="mb-6 inline-flex items-center rounded-full bg-secondary px-4 py-2 text-sm text-primary">
+            <Shield className="mr-2 h-4 w-4" /> Tecnologia que entende você
           </div>
-          <h1 className="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-6xl font-bold tracking-tight text-transparent sm:text-7xl">
-            EscutaMed
+          <h1 className="mb-6 text-6xl font-bold tracking-tight text-foreground sm:text-7xl">
+            Mais tempo para o que
+            <br />
+            realmente importa
           </h1>
-          <p className="mx-auto mb-8 max-w-2xl text-xl leading-relaxed text-gray-600">
-            Revolucione suas consultas médicas com IA. Transforme textos em
-            prontuários estruturados, mantendo o foco no que mais importa:
-            <span className="font-semibold text-blue-600">
-              {" "}
-              o cuidado com o paciente
-            </span>
-            .
+          <p className="mx-auto mb-8 max-w-2xl text-xl leading-relaxed text-muted-foreground">
+            Na EscutaMed, entendemos que ser médico é incrível, mas às vezes é
+            desafiador gerenciar tudo. Queremos te ajudar a simplificar sua
+            rotina médica, para você levar uma vida mais leve.
           </p>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link href="/dashboard">
@@ -64,22 +62,24 @@ export default function HomePage() {
         </div>
 
         {/* Stats */}
-        <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-4">
+        <div className="mt-16 grid grid-cols-2 gap-8 sm:grid-cols-3">
           <div className="flex flex-col items-center">
-            <span className="text-3xl font-bold text-blue-600">99%</span>
-            <span className="text-sm text-gray-600">Precisão</span>
+            <span className="text-3xl font-bold text-primary">2h/dia</span>
+            <span className="text-sm text-muted-foreground">
+              Tempo economizado
+            </span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-3xl font-bold text-blue-600">5x</span>
-            <span className="text-sm text-gray-600">Mais rápido</span>
+            <span className="text-3xl font-bold text-primary">79.6%</span>
+            <span className="text-sm text-muted-foreground">
+              Médicos mais satisfeitos
+            </span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-3xl font-bold text-blue-600">1000+</span>
-            <span className="text-sm text-gray-600">Médicos</span>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="text-3xl font-bold text-blue-600">24/7</span>
-            <span className="text-sm text-gray-600">Disponível</span>
+            <span className="text-3xl font-bold text-primary">100%</span>
+            <span className="text-sm text-muted-foreground">
+              Foco no paciente
+            </span>
           </div>
         </div>
       </section>
@@ -88,138 +88,97 @@ export default function HomePage() {
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-gray-900">
-              Recursos Principais
+            <h2 className="mb-4 text-4xl font-bold text-foreground">
+              Como a EscutaMed simplifica sua vida
             </h2>
-            <p className="mx-auto max-w-2xl text-lg text-gray-600">
-              Tecnologia de ponta para transformar a maneira como você registra
-              e analisa consultas médicas.
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Transforme sua rotina médica em momentos mais significativos com
+              seus pacientes
             </p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {/* Feature 1 */}
-            <div className="group rounded-xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:border-blue-100 hover:shadow-lg hover:shadow-blue-100/50">
-              <div className="mb-4 inline-block rounded-lg bg-blue-100 p-3">
-                <Brain className="h-6 w-6 text-blue-600" />
+            <div className="group rounded-xl border border-border bg-card p-8 shadow-sm transition-all hover:border-primary/20 hover:shadow-lg">
+              <div className="mb-4 inline-block rounded-lg bg-primary/10 p-3">
+                <Brain className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="mb-3 text-xl font-semibold group-hover:text-blue-600">
-                Processamento Inteligente
+              <h3 className="mb-3 text-xl font-semibold text-card-foreground group-hover:text-primary">
+                Foco Total no Paciente
               </h3>
-              <p className="text-gray-600">
-                Utilize IA avançada para extrair automaticamente informações
-                relevantes das consultas médicas, com níveis de confiança para
-                cada dado extraído.
+              <p className="text-muted-foreground">
+                Mantenha contato visual e estabeleça conexões mais profundas com
+                seus pacientes, enquanto a EscutaMed cuida das anotações.
               </p>
-              <ul className="mt-4 space-y-2">
-                <li className="flex items-center text-sm text-gray-600">
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                  Extração automática de dados
-                </li>
-                <li className="flex items-center text-sm text-gray-600">
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                  Níveis de confiança
-                </li>
-                <li className="flex items-center text-sm text-gray-600">
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                  Processamento em tempo real
-                </li>
-              </ul>
             </div>
 
             {/* Feature 2 */}
-            <div className="group rounded-xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:border-green-100 hover:shadow-lg hover:shadow-green-100/50">
-              <div className="mb-4 inline-block rounded-lg bg-green-100 p-3">
-                <Stethoscope className="h-6 w-6 text-green-600" />
+            <div className="group rounded-xl border border-border bg-card p-8 shadow-sm transition-all hover:border-primary/20 hover:shadow-lg">
+              <div className="mb-4 inline-block rounded-lg bg-primary/10 p-3">
+                <Stethoscope className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="mb-3 text-xl font-semibold group-hover:text-green-600">
-                Terminologia Médica Precisa
+              <h3 className="mb-3 text-xl font-semibold text-card-foreground group-hover:text-primary">
+                Documentação Simplificada
               </h3>
-              <p className="text-gray-600">
-                Conversão automática para vocabulário técnico médico
-                padronizado, garantindo precisão e consistência nos registros.
+              <p className="text-muted-foreground">
+                Prontuários completos e precisos gerados automaticamente durante
+                a consulta, sem necessidade de digitação.
               </p>
-              <ul className="mt-4 space-y-2">
-                <li className="flex items-center text-sm text-gray-600">
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                  Vocabulário técnico padronizado
-                </li>
-                <li className="flex items-center text-sm text-gray-600">
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                  Consistência nos registros
-                </li>
-                <li className="flex items-center text-sm text-gray-600">
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                  Conformidade com padrões médicos
-                </li>
-              </ul>
             </div>
 
             {/* Feature 3 */}
-            <div className="group rounded-xl border border-gray-200 bg-white p-8 shadow-sm transition-all hover:border-purple-100 hover:shadow-lg hover:shadow-purple-100/50">
-              <div className="mb-4 inline-block rounded-lg bg-purple-100 p-3">
-                <FileText className="h-6 w-6 text-purple-600" />
+            <div className="group rounded-xl border border-border bg-card p-8 shadow-sm transition-all hover:border-primary/20 hover:shadow-lg">
+              <div className="mb-4 inline-block rounded-lg bg-primary/10 p-3">
+                <FileText className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="mb-3 text-xl font-semibold group-hover:text-purple-600">
-                Informações Estruturadas
+              <h3 className="mb-3 text-xl font-semibold text-card-foreground group-hover:text-primary">
+                Mais Tempo para Você
               </h3>
-              <p className="text-gray-600">
-                Organize automaticamente dados do paciente em categorias como
-                identificação, queixas, histórico e antecedentes.
+              <p className="text-muted-foreground">
+                Recupere até 2 horas por dia eliminando tarefas administrativas
+                e foque no que realmente importa.
               </p>
-              <ul className="mt-4 space-y-2">
-                <li className="flex items-center text-sm text-gray-600">
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                  Dados organizados por categoria
-                </li>
-                <li className="flex items-center text-sm text-gray-600">
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                  Fácil consulta e análise
-                </li>
-                <li className="flex items-center text-sm text-gray-600">
-                  <CheckCircle2 className="mr-2 h-4 w-4 text-green-500" />
-                  Histórico completo do paciente
-                </li>
-              </ul>
             </div>
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-24">
+      <section className="bg-gradient-to-b from-secondary/50 to-background py-24">
         <div className="mx-auto max-w-7xl px-4">
           <div className="mb-16 text-center">
-            <h2 className="mb-4 text-4xl font-bold text-gray-900">
-              Por que escolher o EscutaMed?
+            <h2 className="mb-4 text-4xl font-bold text-foreground">
+              Por que médicos amam a EscutaMed?
             </h2>
-            <p className="mx-auto max-w-2xl text-lg text-gray-600">
-              Benefícios que fazem a diferença na sua prática médica diária
+            <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+              Descubra como estamos transformando a prática médica diária
             </p>
           </div>
           <div className="grid gap-8 sm:grid-cols-2">
-            <div className="flex items-start gap-4 rounded-lg border border-gray-200 bg-white p-6">
-              <div className="rounded-lg bg-blue-100 p-3">
-                <Clock className="h-6 w-6 text-blue-600" />
+            <div className="flex items-start gap-4 rounded-lg border border-border bg-card p-6">
+              <div className="rounded-lg bg-primary/10 p-3">
+                <Clock className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h3 className="mb-2 text-lg font-semibold">
-                  Economia de Tempo
+                <h3 className="mb-2 text-lg font-semibold text-card-foreground">
+                  Mais qualidade de vida
                 </h3>
-                <p className="text-gray-600">
-                  Reduza o tempo gasto com documentação em até 80%, focando mais
-                  no atendimento ao paciente.
+                <p className="text-muted-foreground">
+                  &quot;Recuperei minhas noites e fins de semana. Agora consigo
+                  terminar toda documentação durante a consulta.&quot;
                 </p>
               </div>
             </div>
-            <div className="flex items-start gap-4 rounded-lg border border-gray-200 bg-white p-6">
-              <div className="rounded-lg bg-green-100 p-3">
-                <Shield className="h-6 w-6 text-green-600" />
+            <div className="flex items-start gap-4 rounded-lg border border-border bg-card p-6">
+              <div className="rounded-lg bg-primary/10 p-3">
+                <Shield className="h-6 w-6 text-primary" />
               </div>
               <div>
-                <h3 className="mb-2 text-lg font-semibold">Segurança Total</h3>
-                <p className="text-gray-600">
-                  Dados criptografados e em conformidade com LGPD e normas de
-                  segurança médica.
+                <h3 className="mb-2 text-lg font-semibold text-card-foreground">
+                  Conexão com pacientes
+                </h3>
+                <p className="text-muted-foreground">
+                  &quot;Meus pacientes notaram a diferença. Agora posso me
+                  concentrar totalmente neles durante a consulta.&quot;
                 </p>
               </div>
             </div>
@@ -228,23 +187,18 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative overflow-hidden bg-blue-600 py-24 text-white">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f46e5,#06b6d4)] opacity-50"></div>
-        <div className="relative mx-auto max-w-4xl px-4 text-center">
+      <section className="relative overflow-hidden bg-primary py-24 text-primary-foreground">
+        <div className="mx-auto max-w-4xl px-4 text-center">
           <h2 className="mb-4 text-4xl font-bold">
-            Pronto para revolucionar suas consultas?
+            Pronto para transformar sua prática médica?
           </h2>
-          <p className="mb-8 text-xl text-blue-100">
-            Junte-se a milhares de médicos que já transformaram sua forma de
-            trabalhar com o EscutaMed.
+          <p className="mb-8 text-xl text-primary-foreground/90">
+            Junte-se aos médicos que já descobriram uma forma mais leve de
+            trabalhar.
           </p>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
             <Link href="/dashboard">
-              <Button
-                size="lg"
-                variant="secondary"
-                className="gap-2 bg-white text-lg text-blue-600 hover:bg-blue-50"
-              >
+              <Button size="lg" variant="secondary" className="gap-2 text-lg">
                 Começar gratuitamente
                 <ArrowRight className="h-5 w-5" />
               </Button>
@@ -252,7 +206,7 @@ export default function HomePage() {
             <Button
               variant="outline"
               size="lg"
-              className="gap-2 border-white text-lg text-white hover:bg-white/10"
+              className="gap-2 border-primary-foreground text-lg text-primary-foreground hover:bg-primary-foreground/10"
             >
               Falar com especialista
               <FileText className="h-5 w-5" />
@@ -262,13 +216,13 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-white py-12">
+      <footer className="border-t border-border bg-background py-12">
         <div className="mx-auto max-w-7xl px-4 text-center">
           <div className="flex items-center justify-center gap-2">
-            <Stethoscope className="h-6 w-6 text-blue-600" />
+            <Stethoscope className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">EscutaMed</span>
           </div>
-          <p className="mt-4 text-sm text-gray-600">
+          <p className="mt-4 text-sm text-muted-foreground">
             © 2024 EscutaMed. Todos os direitos reservados.
           </p>
         </div>
