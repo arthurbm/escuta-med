@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Mic, Square, Loader2 } from "lucide-react";
+import { Mic, Square, Loader2, Activity } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface AudioRecorderProps {
   onTranscriptionComplete: (text: string) => void;
@@ -59,7 +60,6 @@ export function AudioRecorder({ onTranscriptionComplete }: AudioRecorderProps) {
   const processAudio = async (audioBlob: Blob) => {
     setIsProcessing(true);
     try {
-      // Create a File object with the correct MIME type
       const file = new File([audioBlob], "recording.webm", {
         type: "audio/webm",
       });
@@ -96,28 +96,68 @@ export function AudioRecorder({ onTranscriptionComplete }: AudioRecorderProps) {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <Button
+    <div className="flex flex-col items-center gap-4">
+      <button
         onClick={handleToggleRecording}
         disabled={isProcessing}
-        variant={isRecording ? "destructive" : "default"}
-        size="icon"
-      >
-        {isProcessing ? (
-          <Loader2 className="h-5 w-5 animate-spin" />
-        ) : isRecording ? (
-          <Square className="h-5 w-5" />
-        ) : (
-          <Mic className="h-5 w-5" />
+        className={cn(
+          "group relative flex h-48 w-48 items-center justify-center rounded-full border-2 transition-all duration-500",
+          isProcessing
+            ? "cursor-not-allowed border-muted bg-muted"
+            : isRecording
+              ? "border-destructive/50 bg-destructive/5"
+              : "border-primary/20 bg-primary/5 hover:border-primary hover:bg-primary/10",
         )}
-      </Button>
-      <span className="text-sm text-muted-foreground">
+      >
+        {/* Outer Ring Animation */}
+        <div
+          className={cn(
+            "absolute inset-0 rounded-full transition-transform duration-700",
+            isRecording && [
+              "animate-[ping_3s_ease-in-out_infinite]",
+              "border-2",
+              "border-destructive/20",
+              "opacity-40",
+            ],
+          )}
+        />
+
+        {/* Inner Content */}
+        <div className="flex flex-col items-center gap-2">
+          {isProcessing ? (
+            <>
+              <Loader2 className="h-12 w-12 animate-spin text-muted-foreground" />
+              <span className="text-sm font-medium text-muted-foreground">
+                Processando...
+              </span>
+            </>
+          ) : isRecording ? (
+            <>
+              <Square className="h-12 w-12 text-destructive/70" />
+              <span className="text-sm font-medium text-destructive/70">
+                Gravando...
+              </span>
+              <Activity className="h-6 w-6 animate-[pulse_2s_ease-in-out_infinite] text-destructive/70" />
+            </>
+          ) : (
+            <>
+              <Mic className="h-12 w-12 text-primary transition-transform duration-300 group-hover:scale-110" />
+              <span className="text-sm font-medium text-muted-foreground">
+                Clique para gravar
+              </span>
+            </>
+          )}
+        </div>
+      </button>
+
+      {/* Recording Status Text */}
+      <p className="text-center text-sm text-muted-foreground">
         {isProcessing
-          ? "Processando áudio..."
+          ? "Convertendo áudio em texto..."
           : isRecording
-            ? "Gravando... Clique para parar"
-            : "Clique para gravar"}
-      </span>
+            ? "Clique para finalizar a gravação"
+            : "Clique no microfone para iniciar a gravação"}
+      </p>
     </div>
   );
 }

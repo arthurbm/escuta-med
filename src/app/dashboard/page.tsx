@@ -100,24 +100,38 @@ export default function DashboardPage() {
               </TabsList>
 
               <TabsContent value="record" className="space-y-4">
-                <div className="rounded-lg bg-card p-6 shadow-sm">
-                  <div className="mb-6 flex flex-col items-center justify-center gap-4">
+                <div className="rounded-lg bg-card p-8 shadow-sm">
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="mb-8 text-center">
+                      <h3 className="text-xl font-semibold text-foreground">
+                        Grave sua consulta
+                      </h3>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        Grave o áudio da sua consulta e deixe nossa IA
+                        transcrever para você
+                      </p>
+                    </div>
                     <AudioRecorder
                       onTranscriptionComplete={handleTranscriptionComplete}
                     />
                   </div>
                   {transcribedText && (
-                    <div className="space-y-4">
+                    <div className="mt-8 space-y-4">
                       <div className="flex items-center gap-2 text-lg font-semibold text-card-foreground">
                         <FileText className="h-5 w-5 text-primary" />
                         Transcrição
                       </div>
-                      <Textarea
-                        value={transcribedText}
-                        onChange={(e) => setTranscribedText(e.target.value)}
-                        className="min-h-[200px] resize-none"
-                        placeholder="A transcrição aparecerá aqui..."
-                      />
+                      <div className="rounded-lg border bg-muted/50 p-4">
+                        <p className="text-sm text-muted-foreground">
+                          Revise e edite a transcrição se necessário:
+                        </p>
+                        <Textarea
+                          value={transcribedText}
+                          onChange={(e) => setTranscribedText(e.target.value)}
+                          className="mt-2 min-h-[200px] resize-none bg-background"
+                          placeholder="A transcrição aparecerá aqui..."
+                        />
+                      </div>
                       <Button
                         size="lg"
                         onClick={processConsultation}
