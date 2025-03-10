@@ -103,21 +103,23 @@ export function ResultSection({ patientInfo, specialty }: ResultsSectionProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Resultado</h2>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={copyAllContent}
-          className="flex items-center gap-2"
-        >
-          <Copy className="h-4 w-4" />
-          Copiar tudo
-        </Button>
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold">Resultado</h2>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={copyAllContent}
+            className="flex items-center gap-2"
+          >
+            <Copy className="h-4 w-4" />
+            Copiar tudo
+          </Button>
+        </div>
+        <p className="text-sm italic text-muted-foreground">
+          Passe o mouse sobre as seções para copiar conteúdo individualmente
+        </p>
       </div>
-      <p className="text-xs italic text-muted-foreground">
-        Passe o mouse sobre as seções para copiar conteúdo individualmente
-      </p>
       <div className="space-y-6 rounded-lg bg-card p-6 shadow-sm">
         {sections.map((section) => {
           // Get data for this section
