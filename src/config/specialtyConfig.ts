@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { type SpecialtyType } from "@/schemas/patient-schema";
 
-// Definição do schema para os tipos de campo
+// Field type definition
 export const fieldTypeSchema = z.enum([
   "text",
   "boolean",
@@ -11,7 +11,7 @@ export const fieldTypeSchema = z.enum([
 
 export type FieldType = z.infer<typeof fieldTypeSchema>;
 
-// Definição do schema para a configuração de um campo
+// Field configuration
 export const fieldConfigSchema = z.object({
   id: z.string(),
   label: z.string(),
@@ -23,33 +23,243 @@ export const fieldConfigSchema = z.object({
 
 export type FieldConfig = z.infer<typeof fieldConfigSchema>;
 
-// Definição do schema para a configuração de uma seção
-export const sectionConfigSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  icon: z.string(),
-  color: z.string(),
-  colorLight: z.string(),
-  fields: z.array(fieldConfigSchema),
-});
+// Section display types
+export enum SectionDisplayType {
+  FIELDS = "fields",
+  TEXT = "text",
+  COMPLEX = "complex",
+}
 
-export type SectionConfig = z.infer<typeof sectionConfigSchema>;
+// Unified section configuration
+export interface SectionConfig {
+  id: string;
+  title: string;
+  icon: string;
+  color: string;
+  colorLight: string;
+  displayType: SectionDisplayType;
+  dataPath: string; // Path to data within patientInfo object (e.g., 'main_complaint', or empty for root)
+  fields?: FieldConfig[];
+}
 
-// Definição do schema para a configuração de uma especialidade
-export const specialtyConfigSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  sections: z.array(sectionConfigSchema),
-});
+// Specialty configuration
+export interface SpecialtyConfig {
+  id: string;
+  name: string;
+  sections: SectionConfig[];
+}
 
-export type SpecialtyConfig = z.infer<typeof specialtyConfigSchema>;
+// Common sections that are displayed for all specialties
+export const commonSections: SectionConfig[] = [
+  {
+    id: "identification",
+    title: "Identificação",
+    icon: "user",
+    color: "blue-600",
+    colorLight: "blue-100",
+    displayType: SectionDisplayType.FIELDS,
+    dataPath: "",
+    fields: [
+      { id: "name", label: "Nome", type: "text", required: true, colSpan: 1 },
+      { id: "gender", label: "Sexo", type: "text", required: true, colSpan: 1 },
+      { id: "age", label: "Idade", type: "text", required: true, colSpan: 1 },
+      { id: "education_level", label: "Escolaridade", type: "text", required: false, colSpan: 1 },
+      { id: "birth_city", label: "Cidade Natal", type: "text", required: false, colSpan: 1 },
+      { id: "current_city", label: "Cidade Atual", type: "text", required: false, colSpan: 1 },
+      { id: "profession", label: "Profissão", type: "text", required: false, colSpan: 1 },
+      { id: "marital_status", label: "Estado Civil", type: "text", required: false, colSpan: 1 },
+    ],
+  },
+  {
+    id: "main_complaint",
+    title: "Queixa Principal",
+    icon: "alert-circle",
+    color: "red-600",
+    colorLight: "red-100",
+    displayType: SectionDisplayType.FIELDS,
+    dataPath: "main_complaint",
+    fields: [
+      { id: "description", label: "Descrição", type: "longText", required: true, colSpan: 2 },
+      { id: "duration", label: "Duração", type: "text", required: true, colSpan: 2 },
+    ],
+  },
+  {
+    id: "current_disease_history",
+    title: "História da Doença Atual",
+    icon: "file-text",
+    color: "orange-600",
+    colorLight: "orange-100",
+    displayType: SectionDisplayType.TEXT,
+    dataPath: "current_disease_history",
+  },
+  {
+    id: "patient_history",
+    title: "Antecedentes do Paciente",
+    icon: "clipboard-list",
+    color: "emerald-600",
+    colorLight: "emerald-100",
+    displayType: SectionDisplayType.FIELDS,
+    dataPath: "patient_history",
+    fields: [
+      { id: "base_diseases", label: "Doenças de Base", type: "list", required: false, colSpan: 2 },
+      { id: "allergies", label: "Alergias", type: "list", required: false, colSpan: 2 },
+      { id: "surgeries", label: "Cirurgias", type: "list", required: false, colSpan: 2 },
+      { id: "blood_transfusions", label: "Transfusão Sanguínea", type: "boolean", required: false, colSpan: 2 },
+    ],
+  },
+  {
+    id: "family_history",
+    title: "Antecedentes Familiares",
+    icon: "file-text",
+    color: "amber-600",
+    colorLight: "amber-100",
+    displayType: SectionDisplayType.FIELDS,
+    dataPath: "family_history",
+    fields: [
+      { id: "parents_diseases", label: "Doenças dos Pais", type: "list", required: false, colSpan: 2 },
+      { id: "parents_cause_of_death", label: "Causa da Morte dos Pais", type: "list", required: false, colSpan: 2 },
+    ],
+  },
+  {
+    id: "lifestyle",
+    title: "Hábitos de Vida",
+    icon: "file-text",
+    color: "indigo-600",
+    colorLight: "indigo-100",
+    displayType: SectionDisplayType.COMPLEX,
+    dataPath: "lifestyle",
+  },
+  {
+    id: "diagnostic_hypothesis",
+    title: "Hipótese de Diagnóstico",
+    icon: "file-text",
+    color: "teal-600",
+    colorLight: "teal-100",
+    displayType: SectionDisplayType.TEXT,
+    dataPath: "diagnostic_hypothesis",
+  },
+];
 
-// Configuração das especialidades
+// Specialty-specific sections
 export const specialtiesConfig: Record<SpecialtyType, SpecialtyConfig> = {
   general: {
     id: "general",
     name: "Geral",
-    sections: [],
+    sections: [
+      {
+        id: "general_vitals",
+        title: "Sinais Vitais",
+        icon: "activity",
+        color: "blue-600",
+        colorLight: "blue-100",
+        displayType: SectionDisplayType.FIELDS,
+        dataPath: "general_vitals",
+        fields: [
+          {
+            id: "temperature",
+            label: "Temperatura",
+            type: "text",
+            required: false,
+            colSpan: 1,
+          },
+          {
+            id: "heart_rate",
+            label: "Frequência Cardíaca",
+            type: "text",
+            required: false,
+            colSpan: 1,
+          },
+          {
+            id: "blood_pressure",
+            label: "Pressão Arterial",
+            type: "text",
+            required: false,
+            colSpan: 1,
+          },
+          {
+            id: "respiratory_rate",
+            label: "Frequência Respiratória",
+            type: "text",
+            required: false,
+            colSpan: 1,
+          },
+          {
+            id: "oxygen_saturation",
+            label: "Saturação de Oxigênio",
+            type: "text",
+            required: false,
+            colSpan: 1,
+          },
+        ],
+      },
+      {
+        id: "general_physical_exam",
+        title: "Exame Físico Geral",
+        icon: "stethoscope",
+        color: "green-600",
+        colorLight: "green-100",
+        displayType: SectionDisplayType.FIELDS,
+        dataPath: "general_physical_exam",
+        fields: [
+          {
+            id: "general_appearance",
+            label: "Aparência Geral",
+            type: "text",
+            required: false,
+            colSpan: 2,
+          },
+          {
+            id: "skin",
+            label: "Pele e Mucosas",
+            type: "text",
+            required: false,
+            colSpan: 2,
+          },
+          {
+            id: "head_neck",
+            label: "Cabeça e Pescoço",
+            type: "text",
+            required: false,
+            colSpan: 2,
+          },
+          {
+            id: "respiratory",
+            label: "Sistema Respiratório",
+            type: "text",
+            required: false,
+            colSpan: 2,
+          },
+          {
+            id: "cardiovascular",
+            label: "Sistema Cardiovascular",
+            type: "text",
+            required: false,
+            colSpan: 2,
+          },
+          {
+            id: "abdomen",
+            label: "Abdômen",
+            type: "text",
+            required: false,
+            colSpan: 2,
+          },
+          {
+            id: "extremities",
+            label: "Extremidades",
+            type: "text",
+            required: false,
+            colSpan: 2,
+          },
+          {
+            id: "neurological",
+            label: "Exame Neurológico",
+            type: "text",
+            required: false,
+            colSpan: 2,
+          },
+        ],
+      },
+    ],
   },
   cardiology: {
     id: "cardiology",
@@ -58,9 +268,11 @@ export const specialtiesConfig: Record<SpecialtyType, SpecialtyConfig> = {
       {
         id: "cardiology_specific",
         title: "Informações Cardiológicas",
-        icon: "fileText",
+        icon: "heart",
         color: "red-600",
         colorLight: "red-100",
+        displayType: SectionDisplayType.FIELDS,
+        dataPath: "cardiology_specific",
         fields: [
           {
             id: "heart_rate",
@@ -129,9 +341,11 @@ export const specialtiesConfig: Record<SpecialtyType, SpecialtyConfig> = {
       {
         id: "ophthalmology_specific",
         title: "Informações Oftalmológicas",
-        icon: "fileText",
+        icon: "eye",
         color: "blue-600",
         colorLight: "blue-100",
+        displayType: SectionDisplayType.FIELDS,
+        dataPath: "ophthalmology_specific",
         fields: [
           {
             id: "visual_acuity_right",
@@ -207,9 +421,11 @@ export const specialtiesConfig: Record<SpecialtyType, SpecialtyConfig> = {
       {
         id: "neurology_specific",
         title: "Informações Neurológicas",
-        icon: "fileText",
+        icon: "brain",
         color: "purple-600",
         colorLight: "purple-100",
+        displayType: SectionDisplayType.FIELDS,
+        dataPath: "neurology_specific",
         fields: [
           {
             id: "mental_status",
@@ -273,12 +489,18 @@ export const specialtiesConfig: Record<SpecialtyType, SpecialtyConfig> = {
   },
 };
 
-// Função para obter a configuração de uma especialidade
+// Get specialty configuration
 export function getSpecialtyConfig(specialty: SpecialtyType): SpecialtyConfig {
-  return specialtiesConfig[specialty] || specialtiesConfig.general;
+  return specialtiesConfig[specialty] ?? specialtiesConfig.general;
 }
 
-// Função para obter todas as opções de especialidades disponíveis
+// Get all sections for a specialty (common + specialty-specific)
+export function getAllSections(specialty: SpecialtyType): SectionConfig[] {
+  const specialtyConfig = getSpecialtyConfig(specialty);
+  return [...commonSections, ...specialtyConfig.sections];
+}
+
+// Get specialty options for dropdown
 export function getSpecialtyOptions() {
   return Object.entries(specialtiesConfig).map(([id, config]) => ({
     value: id,
