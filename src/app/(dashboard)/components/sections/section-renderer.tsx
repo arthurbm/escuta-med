@@ -1,10 +1,11 @@
 import React from "react";
 import { SectionDisplayType } from "@/config/specialtyConfig";
-import { TextSection } from "./section-types/text-section";
-import { ComplexSectionFactory } from "./section-types/complex-section-factory";
+import { TextSection } from "./types/text-section";
+import { ComplexSectionFactory } from "./types/complex-section-factory";
 import { type SectionRendererProps } from "./section-types";
 import { SectionHeader } from "./section-header";
-import { FieldsSection } from "./section-types/fields-section";
+import { FieldsSection } from "./types/fields-section";
+
 export function SectionRenderer({
   section,
   sectionData,

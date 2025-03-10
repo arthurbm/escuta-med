@@ -1,10 +1,10 @@
 import { Mic, FileText, FileEdit } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AudioRecorder } from "@/components/audio-recorder";
-import { AudioUploader } from "./audio-uploader";
-import { TranscriptionEditor } from "./transcription-editor";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
+import { AudioRecorder } from "@/app/(dashboard)/components/features/audio-recorder";
+import { AudioUploader } from "@/app/(dashboard)/components/features/audio-uploader";
+import { TranscriptionEditor } from "@/app/(dashboard)/components/features/transcription-editor";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 interface DashboardTabsProps {
   transcribedText: string;

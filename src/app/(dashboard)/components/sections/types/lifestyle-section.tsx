@@ -1,14 +1,15 @@
 import React from "react";
 import { type FieldConfig } from "@/config/specialtyConfig";
-import { DynamicField } from "@/components/dashboard/dynamic-field";
+
 import {
   type LifestyleSectionProps,
   type LifestyleData,
-} from "../section-types";
+} from "@/config/section-types";
 import {
   formatLifestyleValue,
   getLifestyleLabel,
 } from "@/lib/lifestyle-formatter";
+import { DynamicField } from "../../ui/dynamic-field";
 
 export function LifestyleSection({ data }: LifestyleSectionProps) {
   const lifestyle = data as LifestyleData;

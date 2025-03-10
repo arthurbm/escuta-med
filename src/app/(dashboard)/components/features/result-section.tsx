@@ -2,7 +2,7 @@ import React from "react";
 import { Stethoscope } from "lucide-react";
 import { type PatientInfo, type SpecialtyType } from "@/schemas/patient-schema";
 import { getAllSections } from "@/config/specialtyConfig";
-import { SectionRenderer } from "./section-renderer";
+import { SectionRenderer } from "@/app/(dashboard)/components/sections/section-renderer";
 import { resolveDataPath } from "@/lib/data-path-resolver";
 
 interface ResultsSectionProps {

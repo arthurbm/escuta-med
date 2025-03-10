@@ -1,7 +1,7 @@
 import React from "react";
-import { DynamicField } from "@/components/dashboard/dynamic-field";
-import { type FieldsSectionProps } from "../section-types";
+import { type FieldsSectionProps } from "@/config/section-types";
 import { formatValue } from "@/lib/value-formatter";
+import { DynamicField } from "../../ui/dynamic-field";
 
 export function FieldsSection({ fields, data }: FieldsSectionProps) {
   return (

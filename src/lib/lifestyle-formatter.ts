@@ -1,4 +1,4 @@
-import { type LifestyleData } from "@/components/dashboard/section-types";
+import { type LifestyleData } from "@/config/section-types";
 
 /**
  * Formats a lifestyle value based on its key

@@ -1,5 +1,5 @@
 import React from "react";
-import { type TextSectionProps } from "../section-types";
+import { type TextSectionProps } from "@/config/section-types";
 
 export function TextSection({ text }: TextSectionProps) {
   return (

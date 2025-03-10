@@ -7,9 +7,8 @@ import {
   type PatientInfo,
   type SpecialtyType,
 } from "@/schemas/patient-schema";
-import { Navbar } from "@/components/dashboard/navbar";
-import { DashboardTabs } from "@/components/dashboard/dashboard-tabs";
-import { ResultSection } from "@/components/dashboard/result-section";
+import { DashboardTabs } from "@/app/(dashboard)/components/ui/dashboard-tabs";
+import { ResultSection } from "@/app/(dashboard)/components/features/result-section";
 import {
   Select,
   SelectContent,
@@ -19,6 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Stethoscope } from "lucide-react";
 import { getSpecialtyOptions } from "@/config/specialtyConfig";
+import { Navbar } from "../components/ui/navbar";
 export default function DashboardPage() {
   const [consultation, setConsultation] = useState("");
   const [transcribedText, setTranscribedText] = useState("");

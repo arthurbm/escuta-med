@@ -1,6 +1,6 @@
 import React from "react";
 import { LifestyleSection } from "./lifestyle-section";
-import { type ComplexSectionFactoryProps } from "../section-types";
+import { type ComplexSectionFactoryProps } from "@/config/section-types";
 
 /**
  * Factory component that renders the appropriate complex section based on the section ID
