@@ -3,6 +3,8 @@
 import React from "react";
 import { type FieldConfig } from "@/config/specialtyConfig";
 import { cn } from "@/lib/utils";
+import { Copy } from "lucide-react";
+import { toast } from "sonner";
 
 interface DynamicFieldProps {
   fieldConfig: FieldConfig;
@@ -16,6 +18,35 @@ export function DynamicField({
   className,
 }: DynamicFieldProps) {
   const { label, type, colSpan } = fieldConfig;
+
+  // Function to copy content to clipboard
+  const copyToClipboard = () => {
+    let textToCopy = "";
+
+    if (Array.isArray(value)) {
+      textToCopy = value.join("\n");
+    } else if (typeof value === "boolean") {
+      textToCopy = value ? "Sim" : "Não";
+    } else if (typeof value === "string") {
+      textToCopy = value;
+    } else if (typeof value === "number") {
+      textToCopy = String(value);
+    } else if (value) {
+      textToCopy = "[Dados complexos]";
+    } else {
+      textToCopy = "-";
+    }
+
+    void navigator.clipboard
+      .writeText(textToCopy)
+      .then(() => {
+        toast.success("Conteúdo copiado para a área de transferência");
+      })
+      .catch((err) => {
+        console.error("Erro ao copiar: ", err);
+        toast.error("Erro ao copiar conteúdo");
+      });
+  };
 
   // Função para renderizar o conteúdo com base no tipo de campo
   const renderFieldContent = () => {
@@ -58,13 +89,29 @@ export function DynamicField({
   return (
     <div
       className={cn(
-        "rounded-lg bg-secondary p-3",
+        "group relative rounded-lg bg-secondary p-3 ring-0 transition-all duration-200 hover:shadow-sm hover:ring-1 hover:ring-primary",
         colSpan === 2 ? "col-span-2" : "",
         className,
       )}
     >
-      <span className="text-sm font-medium text-muted-foreground">{label}</span>
-      {renderFieldContent()}
+      {/* Copy button positioned absolutely in the top right corner */}
+      <button
+        onClick={copyToClipboard}
+        className="absolute right-2 top-2 z-10 rounded-md bg-secondary p-1.5 opacity-0 transition-all duration-200 hover:scale-110 hover:bg-muted hover:shadow-sm group-hover:opacity-100"
+        title="Copiar conteúdo"
+        aria-label="Copiar conteúdo"
+      >
+        <Copy className="h-4 w-4 text-muted-foreground" />
+      </button>
+
+      <div className="pr-7">
+        {" "}
+        {/* Add right padding to prevent content from overlapping with the button */}
+        <span className="text-sm font-medium text-muted-foreground">
+          {label}
+        </span>
+        {renderFieldContent()}
+      </div>
     </div>
   );
 }
