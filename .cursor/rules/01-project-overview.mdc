@@ -1,0 +1,32 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Overview
+
+Escuta-Med is a Next.js application with AI integration for medical purposes, enabling doctors to use AI to automatically extract structured medical information from consultation transcripts.
+
+## Main Technologies
+- [Next.js](mdc:https:/nextjs.org) - React framework with App Router
+- [Prisma](mdc:https:/www.prisma.io) - Database ORM
+- [shadcn/ui](mdc:https:/ui.shadcn.com) - Component library
+- [Better Auth](mdc:https:/better-auth.com) - Authentication
+- [AI SDK](mdc:https:/github.com/ai-sdk) - AI integration
+- [Tailwind CSS](mdc:https:/tailwindcss.com) - Styling
+
+## Key Files
+- [package.json](mdc:package.json) - Project dependencies and scripts
+- [prisma/schema.prisma](mdc:prisma/schema.prisma) - Database schema definition
+- [src/app/actions.ts](mdc:src/app/actions.ts) - Server Actions for data operations
+- [src/app/page.tsx](mdc:src/app/page.tsx) - Main homepage
+- [src/schemas/patient-schema.ts](mdc:src/schemas/patient-schema.ts) - Zod schemas for patient data
+
+## Project Structure
+- `src/app` - Next.js app directory (pages and layouts)
+- `src/app/(auth)` - Authentication routes (sign-in, sign-up)
+- `src/app/(dashboard)` - Dashboard and consultation routes
+- `src/app/api` - API routes for AI processing
+- `src/components` - Reusable UI components
+- `src/lib` - Utility functions and helpers
+- `prisma` - Database schema and migrations

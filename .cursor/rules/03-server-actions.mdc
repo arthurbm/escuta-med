@@ -1,0 +1,51 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Server Actions
+
+The application uses Next.js Server Actions for all database operations. These actions provide a clean, type-safe way to interact with the database directly from components.
+
+## Key Actions
+
+- `saveConsultation` - Saves consultation data across multiple tables in a transaction
+- `getConsultations` - Retrieves consultations with all related data
+
+## Data Flow
+
+1. AI processes the consultation text through API routes
+2. The structured data is passed to `saveConsultation`
+3. Server action distributes data across multiple tables
+4. Retrieving data joins all related tables through Prisma `include`
+
+## Transaction Pattern
+
+Server actions use Prisma transactions to ensure data consistency:
+
+```typescript
+return await db.$transaction(async (tx) => {
+  // 1. Create main record
+  const consultation = await tx.consultation.create({...})
+  
+  // 2. Create all related records
+  await createSectionData(tx, consultation.id, 'patientIdentification', data)
+  
+  // 3. Revalidate paths for fresh data
+  revalidatePath('/dashboard/history')
+})
+```
+
+## Authentication
+
+Server actions verify user authentication using Better Auth:
+
+```typescript
+const session = await auth.api.getSession({
+  headers: await headers()
+})
+
+if (!session?.user?.id) {
+  throw new Error("Não autorizado")
+}
+```

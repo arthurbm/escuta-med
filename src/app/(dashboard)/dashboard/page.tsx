@@ -19,6 +19,9 @@ import {
 import { Stethoscope } from "lucide-react";
 import { getSpecialtyOptions } from "@/config/specialtyConfig";
 import { Navbar } from "../components/ui/navbar";
+import { saveConsultation } from "@/app/actions";
+import { toast } from "sonner";
+
 export default function DashboardPage() {
   const [consultation, setConsultation] = useState("");
   const [transcribedText, setTranscribedText] = useState("");
@@ -31,6 +34,20 @@ export default function DashboardPage() {
   } = useObject<PatientInfo>({
     api: "/api/process-consultation",
     schema: patientSchema,
+    async onFinish(event) {
+      try {
+        // Verificamos se o objeto existe antes de salvar
+        if (event.object) {
+          // Salva a consulta usando Server Action quando a análise for concluída
+          const textToProcess = transcribedText || consultation;
+          await saveConsultation(textToProcess, specialty, event.object);
+          toast.success("Consulta salva com sucesso!");
+        }
+      } catch (error) {
+        console.error("Erro ao salvar consulta:", error);
+        toast.error("Erro ao salvar consulta");
+      }
+    },
   });
 
   const processConsultation = async () => {

@@ -1,0 +1,47 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Data Models and Schemas
+
+The application uses Zod for validating and typing data models. The schemas define both the structure expected from AI processing and the database storage format.
+
+## Schema Structure
+
+The primary schema is `patientSchema` in [patient-schema.ts](mdc:src/schemas/patient-schema.ts), which defines:
+
+- Base patient information (name, age, gender)
+- Common medical sections (main complaint, disease history)
+- Specialty-specific sections (cardiology, neurology, etc.)
+
+## Schema to Database Mapping
+
+Each section in the schema maps to a table in the database:
+
+| Schema Section | Database Table | Relation Field |
+|----------------|---------------|----------------|
+| Base fields | `PatientIdentification` | `patientIdentification` |
+| `main_complaint` | `MainComplaint` | `mainComplaint` |
+| `cardiology_specific` | `CardiologySpecifics` | `cardiologySpecifics` |
+
+## Specialty Configuration
+
+The [specialtyConfig.ts](mdc:src/config/specialtyConfig.ts) file defines the UI representation of each section:
+
+```typescript
+{
+  id: "identification",
+  title: "Identificação",
+  dataPath: "patientIdentification", // Maps to relation name
+  fields: [
+    { id: "name", label: "Nome", type: "text" },
+    // ...
+  ]
+}
+```
+
+## Type Safety
+
+- `PatientInfo` type represents the complete patient data from AI
+- `Prisma.ConsultationGetPayload<{include: {...}}>` type represents database records with relations included

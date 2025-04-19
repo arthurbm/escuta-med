@@ -1,0 +1,57 @@
+---
+description: When needed to work with auth
+globs: 
+alwaysApply: false
+---
+# Authentication System
+
+This application uses Better Auth for authentication and user management.
+
+## Authentication Flow
+
+1. Users sign up or sign in through dedicated pages
+2. Authentication creates session tokens stored in the database
+3. Server actions and API routes verify authentication before handling requests
+4. Protected routes redirect unauthenticated users
+
+## Key Components
+
+- [Sign In Page](mdc:src/app/(auth)/sign-in/page.tsx) - Email and social login
+- [Sign Up Page](mdc:src/app/(auth)/sign-up/page.tsx) - New user registration
+- [auth-client.ts](mdc:src/lib/auth-client.ts) - Client-side auth functions
+
+## User Authentication
+
+```typescript
+// Client-side sign in
+import { signIn } from "@/lib/auth-client";
+
+await signIn.email({
+  email,
+  password
+}, {
+  callbackURL: "/dashboard"
+});
+
+// Server-side auth check
+const session = await auth.api.getSession({
+  headers: await headers()
+});
+
+if (!session?.user?.id) {
+  throw new Error("Não autorizado");
+}
+```
+
+## Data Access Control
+
+All data access is filtered by the authenticated user's ID:
+
+```typescript
+const consultations = await db.consultation.findMany({
+  where: {
+    userId: session.user.id,
+  },
+  // ...
+});
+```
