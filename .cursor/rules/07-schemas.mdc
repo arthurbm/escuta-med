@@ -1,0 +1,16 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Data Schemas
+
+This project uses Zod for runtime type validation and TypeScript for static type checking.
+
+## Key Schemas
+- [patient-schema.ts](mdc:src/schemas/patient-schema.ts) - Patient information schema and types
+
+## Schema Patterns
+- Zod schemas define validation rules
+- TypeScript types are derived from schemas using `z.infer<typeof schema>`
+- Schemas are used for API validation and AI data structuring

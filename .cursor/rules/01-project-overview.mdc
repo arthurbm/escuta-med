@@ -1,0 +1,29 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Project Overview
+
+Escuta-Med is a Next.js application with AI integration for medical purposes.
+
+## Main Technologies
+- [Next.js](mdc:https:/nextjs.org) - React framework
+- [Prisma](mdc:https:/www.prisma.io) - Database ORM
+- [Tailwind CSS](mdc:https:/tailwindcss.com) - Styling
+- [shadcn/ui](mdc:https:/ui.shadcn.com) - Component library
+- [Radix UI](mdc:https:/www.radix-ui.com) - Accessible UI primitives
+- [AI SDK](mdc:https:/github.com/ai-sdk) - AI integration
+
+## Key Files
+- [package.json](mdc:package.json) - Project dependencies and scripts
+- [src/app/page.tsx](mdc:src/app/page.tsx) - Main homepage
+- [src/app/layout.tsx](mdc:src/app/layout.tsx) - Root layout component
+- [prisma/schema.prisma](mdc:prisma/schema.prisma) - Database schema definition
+- [components.json](mdc:components.json) - shadcn/ui configuration
+
+## Project Structure
+- `src/app` - Next.js app directory (pages and layouts)
+- `src/components` - Reusable React components
+- `src/lib` - Utility functions and helpers
+- `prisma` - Database schema and migrations

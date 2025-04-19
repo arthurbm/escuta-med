@@ -1,0 +1,23 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Database and Prisma
+
+This project uses Prisma ORM with a PostgreSQL database.
+
+## Key Files
+- [prisma/schema.prisma](mdc:prisma/schema.prisma) - Database schema definition
+
+## Models
+- `Post` - A basic model with id, name, and timestamps
+
+## Commands
+- `pnpm db:generate` - Generate Prisma client after schema changes
+- `pnpm db:push` - Push schema changes to the database
+- `pnpm db:studio` - Open Prisma Studio for database visualization
+- `pnpm db:migrate` - Apply migrations to the database
+
+## Database Setup
+Run `./start-database.sh` to initialize a PostgreSQL database locally.

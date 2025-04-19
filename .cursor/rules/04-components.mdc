@@ -1,0 +1,25 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# UI Components
+
+This project uses [shadcn/ui](mdc:https:/ui.shadcn.com) - a collection of reusable components built with [Tailwind CSS](mdc:https:/tailwindcss.com) and [Radix UI](mdc:https:/www.radix-ui.com).
+
+## UI Components
+- [button.tsx](mdc:src/components/ui/button.tsx) - Button component
+- [card.tsx](mdc:src/components/ui/card.tsx) - Card component
+- [form.tsx](mdc:src/components/ui/form.tsx) - Form components
+- [input.tsx](mdc:src/components/ui/input.tsx) - Input component
+- [label.tsx](mdc:src/components/ui/label.tsx) - Label component
+- [select.tsx](mdc:src/components/ui/select.tsx) - Select component
+- [sonner.tsx](mdc:src/components/ui/sonner.tsx) - Toast notifications
+- [tabs.tsx](mdc:src/components/ui/tabs.tsx) - Tabs component
+- [textarea.tsx](mdc:src/components/ui/textarea.tsx) - Textarea component
+
+## Component Patterns
+- Components use class-variance-authority (cva) for variant management
+- Tailwind is used for styling through shadcn/ui's component design
+- Components are built on top of Radix UI primitives for accessibility
+- Add new components using `pnpm dlx shadcn-ui@latest add [component-name]`

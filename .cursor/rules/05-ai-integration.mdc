@@ -1,0 +1,22 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# AI Integration
+
+This project integrates various AI services for transcription and medical information processing.
+
+## API Endpoints
+- [/api/transcribe-audio](mdc:src/app/api/transcribe-audio/route.ts) - Audio transcription using Groq API
+- [/api/process-consultation](mdc:src/app/api/process-consultation/route.ts) - Process medical consultation text using Google AI
+
+## AI SDKs
+- `@ai-sdk/google` - Google AI integration
+- `@ai-sdk/openai` - OpenAI integration
+- `@ai-sdk/react` - React hooks for AI integration
+- `groq-sdk` - Groq API for audio transcription
+
+## Key Components
+- [AudioRecorder](mdc:src/app/(dashboard)/components/features/audio-recorder.tsx) - Records audio and sends for transcription
+- `useObject` from `@ai-sdk/react` - Manages AI-processed structured data
