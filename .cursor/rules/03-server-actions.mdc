@@ -1,7 +1,7 @@
 ---
-description: 
+description: Must be requested when actions that interact with the server are going to be made
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 # Server Actions
 

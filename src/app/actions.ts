@@ -9,17 +9,33 @@ import { headers } from "next/headers";
 import { getAllSections } from "@/config/specialtyConfig"; // Precisamos do config para mapear
 
 
-// Função auxiliar para criar dados de seção conectando a uma consulta
-async function createSectionData(tx: Prisma.TransactionClient, consultationId: string, modelName: string, data: Record<string, unknown> | undefined | null) {
+// Helper function to create section data linked to a consultation
+async function createSectionData(
+  tx: Prisma.TransactionClient,
+  consultationId: string,
+  modelName: Prisma.ModelName,
+  data: Record<string, unknown> | undefined | null,
+) {
   if (!data || Object.keys(data).length === 0) return;
 
-  // @ts-expect-error - Prisma não tem um tipo genérico fácil para tx[modelName]
-  await tx[modelName].create({
-    data: {
-      ...data,
-      consultationId: consultationId,
-    },
-  });
+  try {
+    // Reverting to @ts-expect-error as dynamic access is complex
+    // const modelAccessor = tx[modelName] as any;
+    // if (modelAccessor && typeof modelAccessor.create === 'function') {
+    // @ts-expect-error - Prisma does not easily support generic types for tx[modelName]
+    await tx[modelName].create({
+      data: {
+        ...data,
+        consultationId: consultationId,
+      },
+    });
+    // } else {
+    //    console.error(`Model ${modelName} or its create method not found on transaction client.`);
+    // }
+  } catch (error) {
+    console.error(`Error creating data for model ${modelName}:`, error);
+    throw new Error(`Failed to save section data for ${modelName}.`);
+  }
 }
 
 export async function saveConsultation(
@@ -32,20 +48,20 @@ export async function saveConsultation(
   });
 
   if (!session?.user?.id) {
-    throw new Error("Não autorizado");
+    throw new Error("Unauthorized");
   }
 
   const userId = session.user.id;
 
-  // Usamos uma transação para garantir a atomicidade
+  // Use a transaction for atomicity
   return await db.$transaction(async (tx) => {
     // 1. Criar a consulta principal
     const consultation = await tx.consultation.create({
       data: {
         userId,
         specialty,
-        text: text, // Ou `patientInfo.raw_text` se existir?
-        rawTranscription: text, // Assumindo que `text` é a transcrição
+        text: text, // Store the main text here
+        rawTranscription: null, // Set rawTranscription to null initially or remove if unused
       },
     });
 
@@ -54,79 +70,112 @@ export async function saveConsultation(
 
     for (const section of sections) {
       let dataToSave: Record<string, unknown> | undefined | null = null;
-      let modelName: string | null = null;
+      // Map dataPath (from config, camelCase) to the correct Prisma model name (PascalCase)
+      let modelName: Prisma.ModelName | null = null;
 
-      // Mapeia dataPath para nome do modelo (simplificado)
       switch (section.dataPath) {
-        case "": // Identificação (raiz)
-          modelName = 'patientIdentification';
+        case "patientIdentification":
+          modelName = 'PatientIdentification';
+          // Extract root-level fields for patient identification
           dataToSave = section.fields?.reduce((acc, field) => {
             const key = field.id as keyof PatientInfo;
+            // Check if key exists directly on patientInfo and is NOT a nested section key
             if (patientInfo[key] !== undefined && 
                 !['main_complaint', 'patient_history', 'family_history', 'lifestyle', 
-                 'general_vitals', 'general_physical_exam', 'cardiology_specific', 
-                 'ophthalmology_specific', 'neurology_specific'].includes(key)) {
-              // Acessando dinamicamente, assumindo que a chave existe e o valor é compatível
-              acc[field.id] = patientInfo[key] as any; // Usamos 'as any' aqui devido à complexidade da tipagem dinâmica
+                 'diagnostic_hypothesis', 'general_vitals', 'general_physical_exam', 
+                 'cardiology_specific', 'ophthalmology_specific', 'neurology_specific'].includes(key)) {
+              acc[field.id] = patientInfo[key] as any;
             }
             return acc;
           }, {} as Record<string, unknown>); 
           break;
-        case "main_complaint":
-          modelName = 'mainComplaint';
+        case "mainComplaint":
+          modelName = 'MainComplaint'; // PascalCase model name
+          // Data structure matches the model directly
           dataToSave = patientInfo.main_complaint;
           break;
-        case "current_disease_history":
-           modelName = 'currentDiseaseHistory';
-           dataToSave = patientInfo.current_disease_history ? { history: patientInfo.current_disease_history } : null;
-           break;
-        case "patient_history":
-          modelName = 'patientHistory';
+        case "currentDiseaseHistory":
+          modelName = 'CurrentDiseaseHistory'; // PascalCase model name
+          // Prisma model expects { history: string }
+          dataToSave = patientInfo.current_disease_history 
+            ? { history: patientInfo.current_disease_history } 
+            : null;
+          break;
+        case "patientHistory":
+          modelName = 'PatientHistory'; // PascalCase model name
+          // Data structure matches the model directly
           dataToSave = patientInfo.patient_history;
           break;
-        case "family_history":
-          modelName = 'familyHistory';
+        case "familyHistory":
+          modelName = 'FamilyHistory'; // PascalCase model name
+          // Data structure matches the model directly
           dataToSave = patientInfo.family_history;
           break;
         case "lifestyle":
-          modelName = 'lifestyle';
-          dataToSave = patientInfo.lifestyle;
+          modelName = 'Lifestyle'; // PascalCase model name
+          // Transform nested AI data to flat Prisma model structure
+          if (patientInfo.lifestyle) {
+             const transformedData: Record<string, any> = {
+              smoking: patientInfo.lifestyle.smoking?.is_smoker,
+              // Map details to the 'alcohol' field (String) as it's the available one
+              alcohol: patientInfo.lifestyle.smoking?.details ?? 
+                       patientInfo.lifestyle.alcohol?.details ?? 
+                       patientInfo.lifestyle.drugs?.details,
+              // Map other fields if present in AI schema AND Prisma model
+              // physical_activity: patientInfo.lifestyle.physical_activity,
+              // diet: patientInfo.lifestyle.diet,
+              // sleep_pattern: patientInfo.lifestyle.sleep_pattern,
+            };
+            Object.keys(transformedData).forEach(key => transformedData[key] === undefined && delete transformedData[key]);
+            dataToSave = Object.keys(transformedData).length > 0 ? transformedData : null;
+          } else {
+            dataToSave = null;
+          }
           break;
-        case "diagnostic_hypothesis":
-           modelName = 'diagnosticHypothesis';
-           dataToSave = patientInfo.diagnostic_hypothesis ? { hypothesis: patientInfo.diagnostic_hypothesis } : null;
+        case "diagnosticHypothesis":
+          modelName = 'DiagnosticHypothesis'; // PascalCase model name
+           // Prisma model expects { hypothesis: string }
+           dataToSave = patientInfo.diagnostic_hypothesis 
+             ? { hypothesis: patientInfo.diagnostic_hypothesis } 
+             : null;
            break;
-         // Acessando propriedades OPCIONAIS de PatientInfo
-         case "general_vitals":
-           modelName = 'generalVitals';
-           dataToSave = patientInfo.general_vitals; // Acessa a propriedade opcional diretamente
+        case "generalVitals":
+           modelName = 'GeneralVitals'; // PascalCase model name
+           dataToSave = patientInfo.general_vitals; // Direct mapping
            break;
-         case "general_physical_exam":
-           modelName = 'generalPhysicalExam';
-           dataToSave = patientInfo.general_physical_exam; // Acessa a propriedade opcional diretamente
+        case "generalPhysicalExam":
+           modelName = 'GeneralPhysicalExam'; // PascalCase model name
+           dataToSave = patientInfo.general_physical_exam; // Direct mapping
            break;
-         case "cardiology_specific":
-           modelName = 'cardiologySpecifics';
-           dataToSave = patientInfo.cardiology_specific; // Acessa a propriedade opcional diretamente
+        case "cardiologySpecifics":
+           modelName = 'CardiologySpecifics'; // PascalCase model name
+           dataToSave = patientInfo.cardiology_specific; // Direct mapping
            break;
-         case "ophthalmology_specific":
-           modelName = 'ophthalmologySpecifics';
-           dataToSave = patientInfo.ophthalmology_specific; // Acessa a propriedade opcional diretamente
+        case "ophthalmologySpecifics":
+           modelName = 'OphthalmologySpecifics'; // PascalCase model name
+           dataToSave = patientInfo.ophthalmology_specific; // Direct mapping
            break;
-         case "neurology_specific":
-           modelName = 'neurologySpecifics';
-           dataToSave = patientInfo.neurology_specific; // Acessa a propriedade opcional diretamente
+        case "neurologySpecifics":
+           modelName = 'NeurologySpecifics'; // PascalCase model name
+           dataToSave = patientInfo.neurology_specific; // Direct mapping
            break;
+        default:
+          console.warn(`Unknown section dataPath found: ${section.dataPath}`);
+          break;
       }
 
-      if (modelName && dataToSave) {
-        // Remove `id` caso a AI o inclua indevidamente e seja objeto
+      // Ensure modelName is valid before calling createSectionData
+      if (modelName && dataToSave && Object.keys(dataToSave).length > 0) {
+        // Remove `id` if AI included it inappropriately
         if (typeof dataToSave === 'object' && dataToSave !== null) {
-            const mutableData = { ...dataToSave }; // Cria cópia mutável
-            delete (mutableData).id; // Usa as any para remover id se existir
+            const mutableData = { ...dataToSave };
+            delete (mutableData as any).id;
             dataToSave = mutableData;
         }
-        await createSectionData(tx, consultation.id, modelName, dataToSave);
+        // Check if dataToSave is not empty after potential ID removal
+         if (Object.keys(dataToSave).length > 0) {
+          await createSectionData(tx, consultation.id, modelName, dataToSave);
+         }
       }
     }
 
@@ -136,9 +185,9 @@ export async function saveConsultation(
     return consultation; // Retorna a consulta principal criada
 
   }).catch(error => {
-      console.error("Erro ao salvar consulta na transação:", error);
+      console.error("Error saving consultation transaction:", error);
       // Lança um erro mais amigável ou específico se necessário
-      throw new Error("Falha ao salvar os detalhes da consulta.");
+      throw new Error("Failed to save consultation details.");
   });
 }
 

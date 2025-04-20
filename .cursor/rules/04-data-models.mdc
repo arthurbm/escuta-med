@@ -1,7 +1,7 @@
 ---
-description: 
+description: Must be used when changes to the data model are going to be made
 globs: 
-alwaysApply: true
+alwaysApply: false
 ---
 # Data Models and Schemas
 
