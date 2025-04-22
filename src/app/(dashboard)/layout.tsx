@@ -1,6 +1,5 @@
-"use client";
 import { Stethoscope, LayoutDashboard, History, LogOut } from "lucide-react";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "@/lib/auth-client";
 import {
@@ -9,7 +8,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -24,12 +22,11 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const pathname = usePathname();
-  const router = useRouter();
   const handleSignOut = async () => {
+    "use server";
     try {
       await signOut();
-      router.push("/sign-in");
+      redirect("/sign-in");
     } catch (error) {
       console.error("Erro ao fazer logout:", error);
     }
@@ -67,7 +64,7 @@ export default function DashboardLayout({
                     <SidebarMenuItem key={item.title}>
                       <SidebarMenuButton
                         asChild
-                        isActive={pathname === item.url}
+                        // isActive={pathname === item.url}
                         tooltip={item.title}
                       >
                         <Link href={item.url}>
