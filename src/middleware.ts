@@ -25,11 +25,6 @@ export async function middleware(request: NextRequest) {
  
 export const config = {
 	matcher: [
-		// Dashboard routes
-		"/dashboard/:path*",
-		// Auth routes
-		"/sign-in",
-		"/sign-up",
 		// Exclude API routes, static files, images etc.
 		"/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|webm|mp4)).*)"
 	],

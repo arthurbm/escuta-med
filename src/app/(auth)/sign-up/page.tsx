@@ -256,14 +256,6 @@ export default function SignUpPage() {
             </form>
           </Form>
         </CardContent>
-        <CardFooter>
-          <div className="flex w-full justify-center border-t py-4">
-            <p className="text-center text-xs text-neutral-500">
-              Protegido por{" "}
-              <span className="text-orange-400">better-auth.</span>
-            </p>
-          </div>
-        </CardFooter>
       </Card>
     </div>
   );
