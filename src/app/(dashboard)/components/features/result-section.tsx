@@ -106,7 +106,6 @@ export function ResultSection({ patientInfo, specialty }: ResultsSectionProps) {
                 } else if (typeof fieldValue === "number") {
                   formattedValue = fieldValue.toString();
                 } else {
-                  // Para objetos ou outros tipos complexos
                   formattedValue = "[Dados complexos]";
                 }
 
