@@ -13,7 +13,7 @@ const defineBaseURL = () => {
         return `https://${process.env.VERCEL_URL}/api/auth`;
     }
     if (isProduction) {
-        return `https://escutamed.com/api/auth`;
+        return `https://www.escutamed.com/api/auth`;
     }
     return "http://localhost:3000/api/auth";
 };
