@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
-import { forgetPassword } from "@/lib/auth-client";
+import { resetPassword } from "@/lib/auth-client";
 
 const formSchema = z
   .object({
@@ -62,10 +62,9 @@ export default function ResetPasswordPage() {
 
   async function onSubmit(values: FormValues) {
     try {
-      await forgetPassword({
-        email: values.email,
-        password: values.password,
-        token: token,
+      await resetPassword({
+        newPassword: values.password,
+        token: token!,
       });
 
       toast.success("Senha redefinida com sucesso!");
