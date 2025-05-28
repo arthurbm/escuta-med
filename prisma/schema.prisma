@@ -2,19 +2,279 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+// --- Modelos Principais ---
 
-    @@index([name])
+model Consultation {
+  id        String @id @default(cuid())
+  userId    String
+  specialty String // e.g., "general", "cardiology"
+  text      String @db.Text // Raw text input (optional)
+  rawTranscription String? @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Relações 1-para-1 opcionais para seções de dados
+  patientIdentification   PatientIdentification?   @relation()
+  mainComplaint           MainComplaint?           @relation()
+  currentDiseaseHistory   CurrentDiseaseHistory?   @relation()
+  patientHistory          PatientHistory?          @relation()
+  familyHistory           FamilyHistory?           @relation()
+  lifestyle               Lifestyle?               @relation()
+  diagnosticHypothesis    DiagnosticHypothesis?    @relation()
+  generalVitals           GeneralVitals?           @relation()
+  generalPhysicalExam     GeneralPhysicalExam?     @relation()
+  cardiologySpecifics     CardiologySpecifics?     @relation()
+  ophthalmologySpecifics  OphthalmologySpecifics?  @relation()
+  neurologySpecifics      NeurologySpecifics?      @relation()
+
+  @@index([userId])
+  @@map("consultation")
+}
+
+// --- Modelos de Seções Comuns ---
+
+model PatientIdentification {
+  id             String  @id @default(cuid())
+  consultationId String  @unique
+  consultation   Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  name           String?
+  gender         String?
+  age            String? // Usando String para flexibilidade (e.g., "30 anos", "5 meses")
+  education_level String?
+  birth_city     String?
+  current_city   String?
+  profession     String?
+  marital_status String?
+
+  @@map("patient_identification")
+}
+
+model MainComplaint {
+  id             String @id @default(cuid())
+  consultationId String @unique
+  consultation   Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  description    String?
+  duration       String?
+
+  @@map("main_complaint")
+}
+
+model CurrentDiseaseHistory {
+  id             String @id @default(cuid())
+  consultationId String @unique
+  consultation   Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  history        String? @db.Text
+
+  @@map("current_disease_history")
+}
+
+model PatientHistory {
+  id                 String   @id @default(cuid())
+  consultationId     String   @unique
+  consultation       Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  base_diseases      String[] @default([])
+  allergies          String[] @default([])
+  surgeries          String[] @default([])
+  blood_transfusions Boolean?
+
+  @@map("patient_history")
+}
+
+model FamilyHistory {
+  id                    String   @id @default(cuid())
+  consultationId        String   @unique
+  consultation          Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  parents_diseases      String[] @default([])
+  parents_cause_of_death String[] @default([])
+
+  @@map("family_history")
+}
+
+model Lifestyle {
+  id             String @id @default(cuid())
+  consultationId String @unique
+  consultation   Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  // Campos baseados no schema.ts (precisaria detalhar mais)
+  smoking        Boolean?
+  alcohol        String?
+  physical_activity String?
+  diet           String?
+  sleep_pattern  String?
+  // Adicionar outros campos conforme o `lifestyleSchema`
+
+  @@map("lifestyle")
+}
+
+model DiagnosticHypothesis {
+  id             String @id @default(cuid())
+  consultationId String @unique
+  consultation   Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  hypothesis     String? @db.Text
+
+  @@map("diagnostic_hypothesis")
+}
+
+// --- Modelos de Seções Específicas de Geral ---
+
+model GeneralVitals {
+  id               String @id @default(cuid())
+  consultationId   String @unique
+  consultation     Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  temperature      String?
+  heart_rate       String?
+  blood_pressure   String?
+  respiratory_rate String?
+  oxygen_saturation String?
+
+  @@map("general_vitals")
+}
+
+model GeneralPhysicalExam {
+  id                String @id @default(cuid())
+  consultationId    String @unique
+  consultation      Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  general_appearance String?
+  skin              String?
+  head_neck         String?
+  respiratory       String?
+  cardiovascular    String?
+  abdomen           String?
+  extremities       String?
+  neurological      String?
+
+  @@map("general_physical_exam")
+}
+
+// --- Modelos de Seções Específicas de Especialidades ---
+
+model CardiologySpecifics {
+  id                        String   @id @default(cuid())
+  consultationId            String   @unique
+  consultation              Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  heart_rate                String?
+  blood_pressure            String?
+  heart_sounds              String?
+  ecg_findings              String?
+  previous_cardiac_events   String[] @default([])
+  chest_pain_characteristics String?
+  dyspnea                   String?
+  edema                     String?
+
+  @@map("cardiology_specifics")
+}
+
+model OphthalmologySpecifics {
+  id                         String @id @default(cuid())
+  consultationId             String @unique
+  consultation               Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  visual_acuity_right        String?
+  visual_acuity_left         String?
+  intraocular_pressure_right String?
+  intraocular_pressure_left  String?
+  fundoscopy                 String?
+  anterior_segment           String?
+  visual_field               String?
+  color_vision               String?
+  ocular_motility            String?
+
+  @@map("ophthalmology_specifics")
+}
+
+model NeurologySpecifics {
+  id                String @id @default(cuid())
+  consultationId    String @unique
+  consultation      Consultation @relation(fields: [consultationId], references: [id], onDelete: Cascade)
+
+  mental_status     String?
+  cranial_nerves    String?
+  motor_system      String?
+  sensory_system    String?
+  reflexes          String?
+  coordination      String?
+  gait              String?
+  imaging_findings  String?
+
+  @@map("neurology_specifics")
+}
+
+// --- Modelos de Autenticação (Better Auth) ---
+
+model User {
+  id            String         @id
+  name          String
+  email         String         @unique
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  consultations Consultation[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
 }

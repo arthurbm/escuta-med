@@ -1,22 +1,60 @@
-import { Stethoscope, ArrowLeft } from "lucide-react";
+"use client";
+
+import { Stethoscope, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { signOut } from "@/lib/auth-client";
 
 export function Navbar() {
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.push("/");
+    } catch (error) {
+      console.error("Erro ao fazer logout:", error);
+    }
+  };
+
   return (
-    <nav className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        <div className="flex items-center gap-2">
-          <Stethoscope className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold">EscutaMed</span>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 items-center">
+        <div className="mr-4 hidden md:flex">
+          <Link href="/" className="mr-6 flex items-center space-x-2">
+            <Stethoscope className="h-5 w-5 text-primary" />
+            <span className="font-medium text-primary">EscutaMed</span>
+          </Link>
+          <nav className="flex items-center space-x-6 text-sm font-medium">
+            <Link
+              className="text-foreground transition-colors hover:text-foreground/80"
+              href="/dashboard"
+            >
+              Dashboard
+            </Link>
+            <Link
+              className="text-foreground/60 transition-colors hover:text-foreground/80"
+              href="/dashboard/history"
+            >
+              Histórico
+            </Link>
+          </nav>
         </div>
-        <Link href="/">
-          <Button variant="ghost" className="gap-2">
-            <ArrowLeft className="h-4 w-4" />
-            Voltar para home
+
+        <div className="flex flex-1 items-center justify-end space-x-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={handleSignOut}
+            className="flex items-center gap-2"
+            title="Sair"
+          >
+            <LogOut className="h-5 w-5" />
+            <span className="sr-only">Sair</span>
           </Button>
-        </Link>
+        </div>
       </div>
-    </nav>
+    </header>
   );
 }

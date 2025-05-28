@@ -1,7 +1,7 @@
 import { type NextRequest } from "next/server";
 import { streamObject } from "ai";
 import { google } from "@ai-sdk/google";
-import { getSchemaForSpecialty, specialtyTypes, type SpecialtyType } from "@/schemas/patient-schema";
+import { getSchemaForSpecialty, specialtyTypes } from "@/schemas/patient-schema";
 import { z } from "zod";
 
 const requestSchema = z.object({
@@ -38,18 +38,26 @@ export async function POST(req: NextRequest) {
         sistema sensorial, reflexos, coordenação, marcha e achados de neuroimagem.`;
         break;
       default:
-        specialtyPrompt = "Você está analisando uma consulta médica geral.";
+        specialtyPrompt = `Você está analisando uma consulta médica geral. Extraia todas as informações possíveis sobre o paciente,
+        seus sintomas, queixas, histórico médico, exame físico, e qualquer outro dado clinicamente relevante.`;
     }
 
     const result = streamObject({
-      model: google("gemini-2.0-flash-001"),
+      model: google("gemini-2.5-flash-preview-04-17"),
       schema,
-      system: `Você é um assistente especializado em extrair informações de consultas médicas. Escreva em termos médicos, quem vai ler são médicos.
+      system: `Você é um assistente especializado em extrair informações de consultas médicas. Escreva em termos médicos, e falando de um jeito bem "mediquês", pois quem vai ler são médicos.
       
       ${specialtyPrompt}
 
-      Se alguma informação não estiver disponível no texto, use valores vazios apropriados (string vazia para textos, arrays vazios para listas, false para booleanos).
-      Mantenha a resposta em formato JSON válido.`,
+      IMPORTANTE:
+      1. Faça o melhor esforço para extrair TODAS as informações disponíveis no texto da consulta.
+      2. Se uma informação não estiver explicitamente mencionada, mas puder ser inferida do contexto, use sua expertise médica para preencher esses dados.
+      3. Para valores numéricos ou categóricos (como frequência cardíaca, pressão arterial), use dados clinicamente plausíveis quando não explicitamente indicados.
+      4. Os campos sobre sinais vitais e exame físico são particularmente importantes - tente preenchê-los ao máximo possível.
+      5. Mantenha a resposta em formato JSON válido.
+      6. Use strings vazias ("") APENAS quando não houver absolutamente nenhuma informação ou inferência possível para aquele campo.
+      
+      Lembre-se: um relatório médico mais completo é mais útil para a tomada de decisões clínicas.`,
       prompt: text,
     });
 

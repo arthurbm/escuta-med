@@ -1,0 +1,50 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Database Schema
+
+This project uses a relational database model with Prisma ORM. The schema is designed to store medical consultations and their structured data in separate tables connected through one-to-one relationships.
+
+## Main Models
+
+### Consultation
+
+The root model for a medical consultation:
+
+```prisma
+model Consultation {
+  id                 String  @id @default(cuid())
+  userId             String
+  specialty          String  // e.g., "general", "cardiology"
+  text               String  @db.Text // Raw text input
+  rawTranscription   String? @db.Text
+  
+  // Relations to all possible data sections
+  patientIdentification   PatientIdentification?
+  mainComplaint           MainComplaint?
+  // ... more relations
+}
+```
+
+## Data Organization
+
+- Each consultation can have relations to multiple data section models
+- Each relation is 1-to-1 and optional
+- Section data is stored in separate tables with `consultationId` foreign keys
+- The section tables match the structure defined in [patient-schema.ts](mdc:src/schemas/patient-schema.ts)
+
+## Key Relationships
+
+- `Consultation` is the central entity with multiple optional 1-to-1 relationships
+- `User` has a 1-to-many relationship with `Consultation`
+- Each specialty has its own specific data model (e.g., `CardiologySpecifics`)
+- Common data sections (e.g., `PatientIdentification`) apply to all specialties
+
+## Authentication Models
+
+- `User` - Core user model
+- `Session` - User session data  
+- `Account` - OAuth provider accounts
+- `Verification` - Email verification tokens

@@ -38,7 +38,7 @@ export interface SectionConfig {
   color: string;
   colorLight: string;
   displayType: SectionDisplayType;
-  dataPath: string; // Path to data within patientInfo object (e.g., 'main_complaint', or empty for root)
+  dataPath: string; // Agora mapeia para o nome da relação no modelo Consultation
   fields?: FieldConfig[];
 }
 
@@ -58,7 +58,7 @@ export const commonSections: SectionConfig[] = [
     color: "blue-600",
     colorLight: "blue-100",
     displayType: SectionDisplayType.FIELDS,
-    dataPath: "",
+    dataPath: "patientIdentification",
     fields: [
       { id: "name", label: "Nome", type: "text", required: true, colSpan: 1 },
       { id: "gender", label: "Sexo", type: "text", required: true, colSpan: 1 },
@@ -77,7 +77,7 @@ export const commonSections: SectionConfig[] = [
     color: "red-600",
     colorLight: "red-100",
     displayType: SectionDisplayType.FIELDS,
-    dataPath: "main_complaint",
+    dataPath: "mainComplaint",
     fields: [
       { id: "description", label: "Descrição", type: "longText", required: true, colSpan: 2 },
       { id: "duration", label: "Duração", type: "text", required: true, colSpan: 2 },
@@ -90,7 +90,7 @@ export const commonSections: SectionConfig[] = [
     color: "orange-600",
     colorLight: "orange-100",
     displayType: SectionDisplayType.TEXT,
-    dataPath: "current_disease_history",
+    dataPath: "currentDiseaseHistory",
   },
   {
     id: "patient_history",
@@ -99,7 +99,7 @@ export const commonSections: SectionConfig[] = [
     color: "emerald-600",
     colorLight: "emerald-100",
     displayType: SectionDisplayType.FIELDS,
-    dataPath: "patient_history",
+    dataPath: "patientHistory",
     fields: [
       { id: "base_diseases", label: "Doenças de Base", type: "list", required: false, colSpan: 2 },
       { id: "allergies", label: "Alergias", type: "list", required: false, colSpan: 2 },
@@ -114,7 +114,7 @@ export const commonSections: SectionConfig[] = [
     color: "amber-600",
     colorLight: "amber-100",
     displayType: SectionDisplayType.FIELDS,
-    dataPath: "family_history",
+    dataPath: "familyHistory",
     fields: [
       { id: "parents_diseases", label: "Doenças dos Pais", type: "list", required: false, colSpan: 2 },
       { id: "parents_cause_of_death", label: "Causa da Morte dos Pais", type: "list", required: false, colSpan: 2 },
@@ -136,7 +136,7 @@ export const commonSections: SectionConfig[] = [
     color: "teal-600",
     colorLight: "teal-100",
     displayType: SectionDisplayType.TEXT,
-    dataPath: "diagnostic_hypothesis",
+    dataPath: "diagnosticHypothesis",
   },
 ];
 
@@ -153,7 +153,7 @@ export const specialtiesConfig: Record<SpecialtyType, SpecialtyConfig> = {
         color: "blue-600",
         colorLight: "blue-100",
         displayType: SectionDisplayType.FIELDS,
-        dataPath: "general_vitals",
+        dataPath: "generalVitals",
         fields: [
           {
             id: "temperature",
@@ -199,7 +199,7 @@ export const specialtiesConfig: Record<SpecialtyType, SpecialtyConfig> = {
         color: "green-600",
         colorLight: "green-100",
         displayType: SectionDisplayType.FIELDS,
-        dataPath: "general_physical_exam",
+        dataPath: "generalPhysicalExam",
         fields: [
           {
             id: "general_appearance",

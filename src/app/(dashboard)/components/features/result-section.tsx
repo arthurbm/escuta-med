@@ -12,6 +12,17 @@ interface ResultsSectionProps {
   specialty: SpecialtyType;
 }
 
+/**
+ * Componente que exibe o resultado da análise da AI.
+ *
+ * IMPORTANTE: Este componente recebe um objeto `patientInfo` diretamente da AI,
+ * que tem uma estrutura diferente do que será armazenado no banco de dados.
+ * O objeto da AI possui chaves como "main_complaint", "lifestyle", etc.,
+ * enquanto o banco de dados armazena essas informações em tabelas separadas.
+ *
+ * Por isso, o objeto `patientInfo` aqui é do tipo definido em `patient-schema.ts`,
+ * não do tipo de um registro do banco de dados com relações.
+ */
 export function ResultSection({ patientInfo, specialty }: ResultsSectionProps) {
   if (!patientInfo) {
     return (
@@ -30,28 +41,53 @@ export function ResultSection({ patientInfo, specialty }: ResultsSectionProps) {
     );
   }
 
-  // Get all sections for this specialty
+  // Obtém todas as seções para essa especialidade
   const sections = getAllSections(specialty);
 
-  // Function to copy all content to clipboard
+  // Função para mapear os dataPath do specialtyConfig para as chaves no objeto patientInfo
+  const mapDataPathToPatientInfoKey = (dataPath: string): string => {
+    // O dataPath nos configs está em camelCase (para o banco de dados relacional)
+    // mas o objeto patientInfo usa snake_case como retornado pela AI
+    const mappings: Record<string, string> = {
+      patientIdentification: "", // campos básicos estão na raiz do objeto
+      mainComplaint: "main_complaint",
+      currentDiseaseHistory: "current_disease_history",
+      patientHistory: "patient_history",
+      familyHistory: "family_history",
+      lifestyle: "lifestyle",
+      diagnosticHypothesis: "diagnostic_hypothesis",
+      generalVitals: "general_vitals",
+      generalPhysicalExam: "general_physical_exam",
+      cardiologySpecifics: "cardiology_specific",
+      ophthalmologySpecifics: "ophthalmology_specific",
+      neurologySpecifics: "neurology_specific",
+    };
+
+    return mappings[dataPath] ?? dataPath;
+  };
+
+  // Função para copiar todo o conteúdo para a área de transferência
   const copyAllContent = () => {
     try {
-      // Create a formatted string with all patient information
+      // Cria uma string formatada com todas as informações do paciente
       let allContent = "";
 
       sections.forEach((section) => {
-        const sectionData = resolveDataPath(patientInfo, section.dataPath);
+        // Mapeia o dataPath para acessar os dados corretamente no objeto patientInfo
+        const patientInfoKey = mapDataPathToPatientInfoKey(section.dataPath);
+        const sectionData = resolveDataPath(patientInfo, patientInfoKey);
+
         if (!sectionData) return;
 
-        // Add section title
+        // Adiciona o título da seção
         allContent += `${section.title}\n`;
         allContent += "".padEnd(section.title.length, "-") + "\n\n";
 
-        // Add section content based on type
+        // Adiciona o conteúdo da seção conforme o tipo
         if (typeof sectionData === "string") {
           allContent += `${sectionData}\n\n`;
         } else if (typeof sectionData === "object") {
-          // For objects, iterate through fields if available
+          // Para objetos, itera pelos campos se disponíveis
           if (section.fields) {
             section.fields.forEach((field) => {
               const fieldData = sectionData as Record<string, unknown>;
@@ -70,7 +106,7 @@ export function ResultSection({ patientInfo, specialty }: ResultsSectionProps) {
                 } else if (typeof fieldValue === "number") {
                   formattedValue = fieldValue.toString();
                 } else {
-                  // For objects or other complex types
+                  // Para objetos ou outros tipos complexos
                   formattedValue = "[Dados complexos]";
                 }
 
@@ -83,7 +119,7 @@ export function ResultSection({ patientInfo, specialty }: ResultsSectionProps) {
         allContent += "\n";
       });
 
-      // Copy to clipboard and handle the promise
+      // Copia para a área de transferência e trata a promise
       void navigator.clipboard
         .writeText(allContent)
         .then(() => {
@@ -122,10 +158,13 @@ export function ResultSection({ patientInfo, specialty }: ResultsSectionProps) {
       </div>
       <div className="space-y-6 rounded-lg bg-card p-6 shadow-sm">
         {sections.map((section) => {
-          // Get data for this section
-          const sectionData = resolveDataPath(patientInfo, section.dataPath);
+          // Mapeia o dataPath para acessar os dados corretamente no objeto patientInfo
+          const patientInfoKey = mapDataPathToPatientInfoKey(section.dataPath);
 
-          // Skip rendering if data is not available
+          // Obtém os dados para esta seção
+          const sectionData = resolveDataPath(patientInfo, patientInfoKey);
+
+          // Pula a renderização se os dados não estiverem disponíveis
           if (!sectionData) return null;
 
           return (

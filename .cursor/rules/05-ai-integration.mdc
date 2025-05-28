@@ -1,4 +1,52 @@
 ---
+<<<<<<< HEAD
+description: When AI integrations are going to be used
+globs: 
+alwaysApply: false
+---
+# AI Integration
+
+The application uses advanced AI models to analyze medical consultation transcripts and extract structured data.
+
+## Key Components
+
+- [process-consultation](mdc:src/app/api/process-consultation/route.ts) - Processes consultation text using Google AI models
+- [transcribe-audio](mdc:src/app/api/transcribe-audio/route.ts) - Transcribes audio recordings using Groq
+
+## AI Processing Flow
+
+1. **Input**: Text transcription from doctor's consultation
+2. **Processing**: AI models extract structured data based on specialty-specific schemas
+3. **Output**: JSON object matching the structure in [patient-schema.ts](mdc:src/schemas/patient-schema.ts)
+4. **Storage**: Data distributed across multiple tables through Server Actions
+
+## AI Model Access
+
+```typescript
+// Example from process-consultation API route
+const result = streamObject({
+  model: google("gemini-2.0-flash-001"),
+  schema, // Schema appropriate for the medical specialty
+  system: `Você é um assistente especializado em extrair informações de consultas médicas.`,
+  prompt: text,
+})
+```
+
+## React Integration
+
+The application uses AI SDK in React components:
+
+```typescript
+const { object: patientInfo, submit } = useObject<PatientInfo>({
+  api: "/api/process-consultation",
+  schema: patientSchema,
+  async onFinish(event) {
+    // Save data to the database using Server Actions
+    await saveConsultation(text, specialty, event.object)
+  }
+})
+```
+=======
 description: 
 globs: 
 alwaysApply: true
@@ -20,3 +68,4 @@ This project integrates various AI services for transcription and medical inform
 ## Key Components
 - [AudioRecorder](mdc:src/app/(dashboard)/components/features/audio-recorder.tsx) - Records audio and sends for transcription
 - `useObject` from `@ai-sdk/react` - Manages AI-processed structured data
+>>>>>>> main
