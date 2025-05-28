@@ -16,22 +16,22 @@ async function createSectionData(
   modelName: Prisma.ModelName,
   data: Record<string, unknown> | undefined | null,
 ) {
-  if (!data || Object.keys(data).length === 0) return;
+  if (!data || Object.keys(data).length === 0) {
+    return;
+  }
 
   try {
-    // Reverting to @ts-expect-error as dynamic access is complex
-    // const modelAccessor = tx[modelName] as any;
-    // if (modelAccessor && typeof modelAccessor.create === 'function') {
-    // @ts-expect-error - Prisma does not easily support generic types for tx[modelName]
-    await tx[modelName].create({
+    // Use type assertion for dynamic model access
+    const modelAccessor = (tx as Record<string, unknown>)[modelName.toLowerCase()] as {
+      create: (args: { data: Record<string, unknown> }) => Promise<unknown>;
+    };
+    
+    await modelAccessor.create({
       data: {
         ...data,
         consultationId: consultationId,
       },
     });
-    // } else {
-    //    console.error(`Model ${modelName} or its create method not found on transaction client.`);
-    // }
   } catch (error) {
     console.error(`Error creating data for model ${modelName}:`, error);
     throw new Error(`Failed to save section data for ${modelName}.`);
@@ -84,7 +84,7 @@ export async function saveConsultation(
                 !['main_complaint', 'patient_history', 'family_history', 'lifestyle', 
                  'diagnostic_hypothesis', 'general_vitals', 'general_physical_exam', 
                  'cardiology_specific', 'ophthalmology_specific', 'neurology_specific'].includes(key)) {
-              acc[field.id] = patientInfo[key] as any;
+              acc[field.id] = patientInfo[key] as unknown;
             }
             return acc;
           }, {} as Record<string, unknown>); 
@@ -115,7 +115,7 @@ export async function saveConsultation(
           modelName = 'Lifestyle'; // PascalCase model name
           // Transform nested AI data to flat Prisma model structure
           if (patientInfo.lifestyle) {
-             const transformedData: Record<string, any> = {
+             const transformedData: Record<string, unknown> = {
               smoking: patientInfo.lifestyle.smoking?.is_smoker,
               // Map details to the 'alcohol' field (String) as it's the available one
               alcohol: patientInfo.lifestyle.smoking?.details ?? 
@@ -169,7 +169,7 @@ export async function saveConsultation(
         // Remove `id` if AI included it inappropriately
         if (typeof dataToSave === 'object' && dataToSave !== null) {
             const mutableData = { ...dataToSave };
-            delete (mutableData as any).id;
+            delete (mutableData as Record<string, unknown>).id;
             dataToSave = mutableData;
         }
         // Check if dataToSave is not empty after potential ID removal

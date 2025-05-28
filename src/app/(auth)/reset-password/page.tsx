@@ -26,6 +26,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useRouter, useSearchParams } from "next/navigation";
 import { resetPassword } from "@/lib/auth-client";
+import { Suspense } from "react";
 
 const formSchema = z
   .object({
@@ -39,16 +40,10 @@ const formSchema = z
 
 type FormValues = z.infer<typeof formSchema>;
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams.get("token");
-
-  if (!token) {
-    toast.error("Token de redefinição inválido ou expirado");
-    router.push("/forgot-password");
-    return null;
-  }
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -59,6 +54,12 @@ export default function ResetPasswordPage() {
   });
 
   const loading = form.formState.isSubmitting;
+
+  if (!token) {
+    toast.error("Token de redefinição inválido ou expirado");
+    router.push("/forgot-password");
+    return null;
+  }
 
   async function onSubmit(values: FormValues) {
     try {
@@ -160,5 +161,23 @@ export default function ResetPasswordPage() {
         </CardFooter>
       </Card>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-background px-4 py-12">
+          <Card className="w-full max-w-md">
+            <CardContent className="flex items-center justify-center p-6">
+              <Loader2 size={24} className="animate-spin" />
+            </CardContent>
+          </Card>
+        </div>
+      }
+    >
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

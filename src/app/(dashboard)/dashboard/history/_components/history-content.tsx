@@ -37,7 +37,7 @@ export async function HistoryContent() {
             <div className="flex items-center justify-between">
               <CardTitle>
                 {/* Acesso direto pela relação */}
-                {consultation.patientIdentification?.name ||
+                {consultation.patientIdentification?.name ??
                   "Paciente sem nome"}
               </CardTitle>
               <div className="flex items-center gap-4">

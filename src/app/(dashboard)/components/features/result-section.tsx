@@ -63,7 +63,7 @@ export function ResultSection({ patientInfo, specialty }: ResultsSectionProps) {
       neurologySpecifics: "neurology_specific",
     };
 
-    return mappings[dataPath] || dataPath;
+    return mappings[dataPath] ?? dataPath;
   };
 
   // Função para copiar todo o conteúdo para a área de transferência

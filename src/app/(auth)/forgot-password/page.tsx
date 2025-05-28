@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useState } from "react";
-import { signIn, forgetPassword } from "@/lib/auth-client";
+import { forgetPassword } from "@/lib/auth-client";
 
 const formSchema = z.object({
   email: z.string().email("Digite um e-mail válido"),

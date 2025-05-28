@@ -1,7 +1,7 @@
 import { type NextRequest } from "next/server";
 import { streamObject } from "ai";
 import { google } from "@ai-sdk/google";
-import { getSchemaForSpecialty, specialtyTypes, type SpecialtyType } from "@/schemas/patient-schema";
+import { getSchemaForSpecialty, specialtyTypes } from "@/schemas/patient-schema";
 import { z } from "zod";
 
 const requestSchema = z.object({
