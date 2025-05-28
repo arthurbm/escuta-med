@@ -13,7 +13,7 @@ export const auth = betterAuth({
     plugins: [nextCookies()],
     emailAndPassword: {
         enabled: true,
-        sendResetPassword: async ({user, url, token}, request) => {
+        sendResetPassword: async ({user, url, token}) => {
             // Em um ambiente de produção, você enviaria um email real
             console.log(`Enviar email de redefinição de senha para ${user.email}`);
             console.log(`URL de redefinição: ${url}`);
@@ -21,7 +21,7 @@ export const auth = betterAuth({
         },
     },
     emailVerification: {
-        sendVerificationEmail: async ({user, url, token}, request) => {
+        sendVerificationEmail: async ({user, url, token}) => {
             // Em um ambiente de produção, você enviaria um email real
             console.log(`Enviar email de verificação para ${user.email}`);
             console.log(`URL de verificação: ${url}`);
