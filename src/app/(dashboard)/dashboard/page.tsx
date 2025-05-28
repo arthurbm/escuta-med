@@ -41,6 +41,9 @@ export default function DashboardPage() {
           const textToProcess = transcribedText || consultation;
           await saveConsultation(textToProcess, specialty, event.object);
           toast.success("Consulta salva com sucesso!");
+        } else if (event.error) {
+          console.error("Erro ao processar consulta:", event.error);
+          toast.error("Erro ao processar consulta");
         }
       } catch (error) {
         console.error("Erro ao salvar consulta:", error);

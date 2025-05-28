@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     }
 
     const result = streamObject({
-      model: google("gemini-2.0-flash-001"),
+      model: google("gemini-2.5-flash-preview-04-17"),
       schema,
       system: `Você é um assistente especializado em extrair informações de consultas médicas. Escreva em termos médicos, e falando de um jeito bem "mediquês", pois quem vai ler são médicos.
       

@@ -201,7 +201,6 @@ export async function getConsultations() {
     return [];
   }
 
-  console.log('entrei')
 
   try {
     const consultations = await db.consultation.findMany({
@@ -227,7 +226,6 @@ export async function getConsultations() {
         neurologySpecifics: true,
       },
     });
-    console.log(consultations);
 
     return consultations;
   } catch (error) {
