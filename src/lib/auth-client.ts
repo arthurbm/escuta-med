@@ -4,21 +4,30 @@
 import { createAuthClient } from "better-auth/react";
 import type { auth } from "./auth";
 import { inferAdditionalFields } from "better-auth/client/plugins";
+import { defineAuthURL } from "./base-url";
 
 const isProduction = process.env.NODE_ENV === "production";
-const isPreview = process.env.VERCEL_TARGET_ENV === "preview" || process.env.VERCEL_TARGET_ENV === "development";
 
-const defineBaseURL = () => {
-    if (isPreview) {
-        return `https://${process.env.VERCEL_URL}/api/auth`;
-    }
-    if (isProduction) {
-        return `https://www.escutamed.com/api/auth`;
-    }
-    return "http://localhost:3000/api/auth";
-};
+const baseURL = defineAuthURL();
+
+// Debug logging for production
+if (isProduction) {
+    console.log("Auth client baseURL:", baseURL);
+}
 
 export const { signIn, signUp, signOut, forgetPassword, resetPassword } = createAuthClient({
-    baseURL: defineBaseURL(),
+    baseURL,
     plugins: [inferAdditionalFields<typeof auth>()],
+    fetchOptions: {
+        customFetchImpl: (input, init) => {
+            // Add debugging for production
+            if (isProduction) {
+                console.log("Auth fetch to:", input);
+            }
+            return fetch(input, {
+                ...init,
+                credentials: "include", // Ensure cookies are included
+            });
+        },
+    },
 });
