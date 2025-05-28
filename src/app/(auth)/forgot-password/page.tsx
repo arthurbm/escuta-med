@@ -25,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useState } from "react";
-import { signIn } from "@/lib/auth-client";
+import { signIn, forgetPassword } from "@/lib/auth-client";
 
 const formSchema = z.object({
   email: z.string().email("Digite um e-mail válido"),
@@ -47,7 +47,7 @@ export default function ForgotPasswordPage() {
 
   async function onSubmit(values: FormValues) {
     try {
-      await signIn.forgetPassword({
+      await forgetPassword({
         email: values.email,
         redirectTo: "/reset-password",
       });
