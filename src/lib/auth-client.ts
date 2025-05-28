@@ -9,7 +9,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 export const { signIn, signUp, signOut, forgetPassword, resetPassword } = createAuthClient({
     baseURL: isProduction
-        ? process.env.NEXT_PUBLIC_AUTH_URL
+        ? process.env.VERCEL_URL
         : "http://localhost:3000/api/auth",
     plugins: [inferAdditionalFields<typeof auth>()],
 });
