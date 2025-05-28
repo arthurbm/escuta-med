@@ -1,7 +1,5 @@
-import { Stethoscope, LayoutDashboard, History, LogOut } from "lucide-react";
-import { redirect } from "next/navigation";
+import { Stethoscope, LayoutDashboard, History } from "lucide-react";
 import Link from "next/link";
-import { signOut } from "@/lib/auth-client";
 import {
   Sidebar,
   SidebarContent,
@@ -15,23 +13,13 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
+import { SignOutButton } from "./components/sign-out-button";
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const handleSignOut = async () => {
-    "use server";
-    try {
-      await signOut();
-      redirect("/sign-in");
-    } catch (error) {
-      console.error("Erro ao fazer logout:", error);
-    }
-  };
-
   const menuItems = [
     {
       title: "Dashboard",
@@ -79,14 +67,7 @@ export default function DashboardLayout({
             </SidebarGroup>
           </SidebarContent>
           <SidebarFooter className="border-t border-border">
-            <Button
-              variant="ghost"
-              className="flex w-full justify-start gap-2 px-2"
-              onClick={handleSignOut}
-            >
-              <LogOut className="h-5 w-5" />
-              <span>Sair</span>
-            </Button>
+            <SignOutButton />
           </SidebarFooter>
         </Sidebar>
 
