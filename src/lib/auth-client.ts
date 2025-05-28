@@ -15,7 +15,7 @@ if (isProduction) {
     console.log("Auth client baseURL:", baseURL);
 }
 
-export const { signIn, signUp, signOut, forgetPassword, resetPassword } = createAuthClient({
+const authClient = createAuthClient({
     baseURL,
     plugins: [inferAdditionalFields<typeof auth>()],
     fetchOptions: {
@@ -31,3 +31,5 @@ export const { signIn, signUp, signOut, forgetPassword, resetPassword } = create
         },
     },
 });
+
+export const { signIn, signUp, signOut, forgetPassword, resetPassword, useSession } = authClient;

@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
 	const pathname = url.pathname;
 
 	const isDashboardRoute = pathname.startsWith("/dashboard");
-	const isAuthRoute = pathname.startsWith("/sign-in") || pathname.startsWith("/sign-up");
+	const isAuthRoute = pathname.startsWith("/sign-in") || pathname.startsWith("/sign-up") || pathname.startsWith("/forgot-password") || pathname.startsWith("/reset-password");
 
 	// For dashboard routes, redirect to sign-in if not logged in
 	if (isDashboardRoute && !sessionCookie) {
