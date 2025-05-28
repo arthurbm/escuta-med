@@ -44,7 +44,6 @@ export function ResultSection({ patientInfo, specialty }: ResultsSectionProps) {
   // Obtém todas as seções para essa especialidade
   const sections = getAllSections(specialty);
 
-  // Função para mapear os dataPath do specialtyConfig para as chaves no objeto patientInfo
   const mapDataPathToPatientInfoKey = (dataPath: string): string => {
     // O dataPath nos configs está em camelCase (para o banco de dados relacional)
     // mas o objeto patientInfo usa snake_case como retornado pela AI
