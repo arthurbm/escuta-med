@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Next.js App Structure
+
+This project uses Next.js App Router for routing and layout management.
+
+## Key Directories
+- [src/app](mdc:src/app) - Main app directory
+- [src/app/api](mdc:src/app/api) - API routes for backend functionality
+- [src/app/(dashboard)](mdc:src/app/(dashboard)) - Dashboard area (route group)
+
+## Important Concepts
+- Files named `page.tsx` become routes
+- Files named `layout.tsx` define shared layouts
+- Directories in parentheses like `(dashboard)` are route groups that don't affect URL paths
+- API routes are defined in the `api` directory

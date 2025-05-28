@@ -28,5 +28,6 @@ Escuta-Med is a Next.js application with AI integration for medical purposes, en
 - `src/app/(dashboard)` - Dashboard and consultation routes
 - `src/app/api` - API routes for AI processing
 - `src/components` - Reusable UI components
+
 - `src/lib` - Utility functions and helpers
 - `prisma` - Database schema and migrations

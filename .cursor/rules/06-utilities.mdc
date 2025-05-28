@@ -1,0 +1,21 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Utility Functions
+
+This project contains various utility functions to support the application.
+
+## Key Utilities
+- [utils.ts](mdc:src/lib/utils.ts) - General utility functions
+- [arrays.tsx](mdc:src/lib/arrays.tsx) - Array manipulation utilities
+- [value-formatter.ts](mdc:src/lib/value-formatter.ts) - Format values for display
+- [lifestyle-formatter.ts](mdc:src/lib/lifestyle-formatter.ts) - Format lifestyle data
+- [iconMapper.tsx](mdc:src/lib/iconMapper.tsx) - Map data to appropriate icons
+- [data-path-resolver.ts](mdc:src/lib/data-path-resolver.ts) - Resolve data paths
+
+## Usage Patterns
+- Utilities are organized by function
+- Helper functions are kept small and focused
+- TypeScript is used for type safety
